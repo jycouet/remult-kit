@@ -16,7 +16,9 @@
     "homepage": "https://github.com/jycouet/remult-kit"
   },
   "scripts": {
-    "reset": "git clean -xdf"
+    "//// OTHERS ////": "",
+    "reset": "git clean -xdf",
+    "up-dep": "pnpm -r up --latest"
   },
   "devDependencies": {
     "@kitql/eslint-config": "^0.3.2"

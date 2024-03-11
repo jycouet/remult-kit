@@ -99,8 +99,8 @@
     "tailwind-merge": "2.2.0",
     "tailwindcss": "3.4.1",
     "vite": "5.1.5",
-    "vite-plugin-kit-routes": "0.5.3",
-    "vite-plugin-stripper": "0.4.1"
+    "vite-plugin-kit-routes": "0.6.0",
+    "vite-plugin-stripper": "0.5.0"
   },
   "devDependencies": {
     "@kitql/helpers": "0.8.9",

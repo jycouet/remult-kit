@@ -1,4 +1,4 @@
-import type { Plugin } from 'vite'
+import type { PluginOption } from 'vite'
 import { kitRoutes, type Options, type RouteMappings } from 'vite-plugin-kit-routes'
 import { stripper } from 'vite-plugin-stripper'
 
@@ -9,7 +9,7 @@ const toRemove = ['oslo/password', 'osla']
 export function remultKit<KIT_ROUTES extends RouteMappings>(options?: {
   stripper?: { debug?: boolean }
   kitRoutes?: Options<KIT_ROUTES>
-}): Plugin[] {
+}): PluginOption {
   // const log = new Log('remult-kit')
 
   return [
@@ -33,7 +33,6 @@ export function remultKit<KIT_ROUTES extends RouteMappings>(options?: {
       },
     },
 
-    // @ts-ignore
     ...kitRoutes<KIT_ROUTES>({
       ...(options?.kitRoutes ?? {}),
       ...{
@@ -49,7 +48,6 @@ export function remultKit<KIT_ROUTES extends RouteMappings>(options?: {
       },
     }),
 
-    // @ts-ignore
     ...stripper({
       decorators: ['BackendMethod'],
       hard: true,

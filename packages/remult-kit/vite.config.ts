@@ -14,7 +14,6 @@ const config = defineConfig({
         },
       },
     }),
-    // @ts-ignore
     sveltekit(),
   ],
   test: {
