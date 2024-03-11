@@ -62,23 +62,23 @@
     "sveltekit"
   ],
   "scripts": {
-    "//// ---- BEST PRACTICES ---- ////": "",
-    "//// ---- PROD ---- ////": "",
-    "//// ---- TEST ---- ////": "",
-    "//// ---- THE END ---- ////": "",
-    "build": "vite build && npm run package && node ./scripts/package.js",
+    "prepare": "svelte-kit sync",
     "dev": "vite dev",
+    "//// ---- BEST PRACTICES ---- ////": "",
     "format": "kitql-lint -f",
     "lint": "kitql-lint",
-    "package": "svelte-package",
-    "prepare": "svelte-kit sync",
-    "push": "cd dist && npm publish --tag exp",
+    "ts": "svelte-check --tsconfig ./tsconfig.json",
+    "ts:w": "svelte-check --tsconfig ./tsconfig.json --watch",
+    "//// ---- TEST ---- ////": "",
     "test:bin": "pnpm build && node ./dist/esm/bin/cmd.js",
     "test:e2e_HOLD": "playwright test",
     "test:unit": "TZ=Europe/Paris vitest",
     "test:unit:ci": "TZ=Europe/Paris vitest run",
-    "ts": "svelte-check --tsconfig ./tsconfig.json",
-    "ts:w": "svelte-check --tsconfig ./tsconfig.json --watch"
+    "//// ---- PROD ---- ////": "",
+    "build": "vite build && npm run package && node ./scripts/package.js",
+    "package": "svelte-package",
+    "push": "cd dist && npm publish --tag exp",
+    "//// ---- THE END ---- ////": ""
   },
   "peerDependencies": {
     "@sveltejs/kit": ">=1.0.0 <3.0.0",
@@ -99,12 +99,12 @@
     "tailwind-merge": "2.2.0",
     "tailwindcss": "3.4.1",
     "vite": "5.1.5",
-    "vite-plugin-kit-routes": "0.5.2",
-    "vite-plugin-stripper": "0.3.3"
+    "vite-plugin-kit-routes": "0.5.3",
+    "vite-plugin-stripper": "0.4.1"
   },
   "devDependencies": {
-    "@kitql/helpers": "0.8.8",
-    "@kitql/internals": "0.9.4",
+    "@kitql/helpers": "0.8.9",
+    "@kitql/internals": "0.9.5",
     "@sveltejs/adapter-node": "^4.0.1",
     "@sveltejs/kit": "2.5.2",
     "@sveltejs/package": "2.2.2",

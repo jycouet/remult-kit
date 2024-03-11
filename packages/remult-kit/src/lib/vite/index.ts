@@ -1,9 +1,15 @@
 import type { Plugin } from 'vite'
+import { kitRoutes, type Options, type RouteMappings } from 'vite-plugin-kit-routes'
 import { stripper } from 'vite-plugin-stripper'
 
 // import { Log } from '@kitql/helpers'
 
-export function remultKit(options?: { stripper?: { debug?: boolean } }): Plugin[] {
+const toRemove = ['oslo/password', 'osla']
+
+export function remultKit<KIT_ROUTES extends RouteMappings>(options?: {
+  stripper?: { debug?: boolean }
+  kitRoutes?: Options<KIT_ROUTES>
+}): Plugin[] {
   // const log = new Log('remult-kit')
 
   return [
@@ -17,22 +23,38 @@ export function remultKit(options?: { stripper?: { debug?: boolean } }): Plugin[
         // This code (A) is to fix in `build` mode
         a.build = {
           rollupOptions: {
-            external: ['oslo/password', 'osla'],
+            external: toRemove,
           },
         }
         // This code (B) is to fix in `dev` mode
         a.optimizeDeps = {
-          exclude: ['oslo/password', 'oslo', ...(a.optimizeDeps?.exclude || [])],
+          exclude: toRemove,
         }
       },
     },
 
     // @ts-ignore
+    ...kitRoutes<KIT_ROUTES>({
+      ...(options?.kitRoutes ?? {}),
+      ...{
+        logs: {
+          ...options?.kitRoutes?.logs,
+          post_update_run: false,
+          update: false,
+        },
+        LINKS: {
+          ...options?.kitRoutes?.LINKS,
+          github_remult_kit: 'https://github.com/jycouet/remult-kit',
+        },
+      },
+    }),
+
+    // @ts-ignore
     ...stripper({
       decorators: ['BackendMethod'],
-      debug: options?.stripper?.debug ?? false,
       hard: true,
-      packages: ['oslo/password', 'oslo'],
+      debug: options?.stripper?.debug ?? false,
+      nullify: [],
     }),
   ]
 }
