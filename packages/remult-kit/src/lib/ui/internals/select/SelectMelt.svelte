@@ -52,7 +52,7 @@
     if (found) {
       return toOption(found)
     } else {
-      if (items.length > 0) {
+      if (value !== null && value !== undefined && items.length > 0) {
         dispatchIssue('VALUE_NOT_IN_ITEMS')
       }
     }
