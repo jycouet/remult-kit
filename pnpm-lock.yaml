@@ -8,6 +8,12 @@ importers:
 
   .:
     devDependencies:
+      '@changesets/changelog-github':
+        specifier: 0.5.0
+        version: 0.5.0
+      '@changesets/cli':
+        specifier: 2.27.1
+        version: 2.27.1
       '@kitql/eslint-config':
         specifier: ^0.3.2
         version: 0.3.2(@babel/core@7.23.9)(graphql@15.8.0)
@@ -94,12 +100,6 @@ importers:
         specifier: 0.5.0
         version: 0.5.0
     devDependencies:
-      '@changesets/changelog-github':
-        specifier: 0.5.0
-        version: 0.5.0
-      '@changesets/cli':
-        specifier: 2.27.1
-        version: 2.27.1
       '@kitql/helpers':
         specifier: 0.8.9
         version: 0.8.9

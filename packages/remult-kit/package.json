@@ -29,8 +29,6 @@
     "build": "vite build && npm run package && node ./scripts/package.js",
     "package": "svelte-package",
     "push": "cd dist && npm publish --tag exp",
-    "release:version": "npm run changeset version",
-    "release": "npm run build && changeset publish",
     "//// ---- THE END ---- ////": ""
   },
   "peerDependencies": {
@@ -39,8 +37,6 @@
     "svelte": ">=4.0.1"
   },
   "devDependencies": {
-    "@changesets/changelog-github": "0.5.0",
-    "@changesets/cli": "2.27.1",
     "@kitql/helpers": "0.8.9",
     "@kitql/internals": "0.9.5",
     "@sveltejs/adapter-node": "^4.0.1",
