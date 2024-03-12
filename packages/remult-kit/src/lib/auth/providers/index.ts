@@ -12,7 +12,7 @@ export const checkOAuthConfig = (
 ) => {
   if (!clientId || !secret) {
     const msg = `Wrong configuration for ${name} provider.
-	${italic(`Config used (${green('.env')} & ${green('inferred')}):`)}
+  ${italic(`Config used (${green('.env')} & ${green('inferred')}):`)}
 ${yellow('--------------- .env ---------------')}
 ${name.toUpperCase()}_CLIENT_ID = '${mask(clientId)}'
 ${name.toUpperCase()}_CLIENT_SECRET = '${mask(secret)}'
