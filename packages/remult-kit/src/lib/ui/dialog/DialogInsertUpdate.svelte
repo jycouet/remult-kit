@@ -1,7 +1,7 @@
 <script lang="ts">
   import { writable } from 'svelte/store'
 
-  import { FieldGroup, getRepoDisplayValue } from '../..'
+  import { FieldGroup, getEntityDisplayValue } from '../..'
   import { kitCellsBuildor } from '../../kitCellsBuildor'
   import { kitStoreItem } from '../../kitStoreItem'
   import { dialog, type DialogMetaDataInternal } from './dialog'
@@ -25,7 +25,7 @@
     isLoading = true
     try {
       const result = await store.save()
-      const item = getRepoDisplayValue('dialogInsertUpdate', store.repo!, result)
+      const item = getEntityDisplayValue(toShow.entity!, result)
 
       if (result) {
         dialog.close(toShow.id, { success: true, item })
