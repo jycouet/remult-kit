@@ -126,6 +126,10 @@ declare module 'remult' {
 
     href?: (item: entityType) => string
 
+    // difference with `findOptions` of remult ?
+    // `findOptionsForEdit` is only for insert & update.
+    findOptionsForEdit?: (() => FindOptionsBase<valueType>) | FindOptionsBase<valueType>
+
     // Currently only for filtering.
     multiSelect?: boolean
 
