@@ -1,6 +1,6 @@
 import { remult, type ClassType, type ErrorInfo, type FieldMetadata, type Repository } from 'remult'
 import { getRelationFieldInfo } from 'remult/internals'
-import { green, Log, yellow } from '@kitql/helpers'
+import { Log } from '@kitql/helpers'
 
 import { suffixWithS } from './formats/strings.js'
 import type { KitBaseItem } from './index.js'

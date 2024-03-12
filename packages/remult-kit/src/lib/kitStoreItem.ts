@@ -1,7 +1,7 @@
 import { BROWSER } from 'esm-env'
 import { get, writable } from 'svelte/store'
 
-import { remult, type ClassType, type ErrorInfo, type FindOptions, type Repository } from 'remult'
+import { remult, type ClassType, type ErrorInfo, type FindOptions } from 'remult'
 // @ts-ignore
 import type { idType } from 'remult/src/remult3/remult3'
 import { Log } from '@kitql/helpers'

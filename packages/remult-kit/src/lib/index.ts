@@ -1,4 +1,4 @@
-import type { ClassType, FindOptionsBase, Repository } from 'remult'
+import type { ClassType, FindOptionsBase } from 'remult'
 
 import 'remult'
 

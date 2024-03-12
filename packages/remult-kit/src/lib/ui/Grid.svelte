@@ -1,16 +1,15 @@
 <script lang="ts" generics="T extends Record<any, any>">
   import { createEventDispatcher } from 'svelte'
 
-  import { remult, type FieldMetadata, type Repository } from 'remult'
-
-  import {
+  
+import {
     displayWithDefaultAndSuffix,
     getEntityDisplayValue,
     getEntityDisplayValueFromField,
     getFieldLinkDisplayValue,
     getFieldMetaType,
   } from '../helper.js'
-  import { LibIcon_Delete, LibIcon_Edit, type KitBaseItem, type KitStoreList } from '../index.js'
+  import { LibIcon_Delete, LibIcon_Edit, type KitStoreList } from '../index.js'
   import type { KitCell } from '../kitCellsBuildor.js'
   import Button from './Button.svelte'
   import Clipboardable from './Clipboardable.svelte'

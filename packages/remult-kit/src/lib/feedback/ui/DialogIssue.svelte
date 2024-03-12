@@ -1,9 +1,8 @@
 <script lang="ts">
   import { onMount } from 'svelte'
 
-  import { repo } from 'remult'
-
-  import { page } from '$app/stores'
+  
+import { page } from '$app/stores'
 
   import { FeedbackController } from '..'
   import { Button, Field, FilterEntity, kitCellBuildor, Loading, type ResolvedType } from '../..'
