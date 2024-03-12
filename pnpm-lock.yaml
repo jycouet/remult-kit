@@ -88,8 +88,8 @@ importers:
         specifier: 5.1.5
         version: 5.1.5(@types/node@20.11.17)
       vite-plugin-kit-routes:
-        specifier: 0.6.0
-        version: 0.6.0
+        specifier: 0.6.1
+        version: 0.6.1
       vite-plugin-stripper:
         specifier: 0.5.0
         version: 0.5.0
@@ -10449,8 +10449,8 @@ packages:
       - supports-color
     dev: true
 
-  /vite-plugin-kit-routes@0.6.0:
-    resolution: {integrity: sha512-K6/uKrvFP/h8Az7tJ+kKBHkUTu3ACkmTNAKj/EJIHITibamtelTC+l1aX+RzV7oKk+SyjwJQLCWruyWg7sZOmQ==}
+  /vite-plugin-kit-routes@0.6.1:
+    resolution: {integrity: sha512-rqqV0qltf5+tRO1Hg0SCZQ1f4S+oc08+0dy8jXN3F+OX7vv5zEMROFqmSrp3y4hj3SOwkeP2ElVMeRaNKUR6+g==}
     engines: {node: ^16.14 || >=18}
     dependencies:
       '@babel/parser': 7.23.9
