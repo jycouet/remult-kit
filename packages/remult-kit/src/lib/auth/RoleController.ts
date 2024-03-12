@@ -2,7 +2,7 @@ import { BackendMethod, repo } from 'remult'
 import type { ClassType } from 'remult'
 import { cyan, green, Log, yellow } from '@kitql/helpers'
 
-import { KitAuthUser } from './Entities'
+import type { KitAuthUser } from './Entities'
 
 /**
  * will merge the roles and remove duplicates

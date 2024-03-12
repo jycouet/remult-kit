@@ -5,19 +5,26 @@
     auth: import('./lib/modules/auth/Page.svelte'),
     admin: import('./lib/modules/admin/Page.svelte'),
     storage: import('./lib/modules/storage/Page.svelte'),
-  }
+  } as const
 
+  // @ts-expect-error
   let activeModule: any = remultKitData.module
   let activeModuleRef: any
 
   // Function to load a specific module
-  function loadModule(moduleName) {
+  function loadModule(moduleName: keyof typeof modules) {
     activeModule = moduleName
     activeModuleRef = modules[moduleName]
   }
 
+  const getData = () => {
+    // @ts-expect-error
+    return remultKitData
+  }
+
   // Load the initial module based on remultKitData
   onMount(() => {
+    // @ts-expect-error
     loadModule(remultKitData.module)
   })
 </script>
@@ -25,13 +32,13 @@
 <main>
   {#if activeModuleRef}
     {#await activeModuleRef then { default: ModuleComponent }}
-      <ModuleComponent {remultKitData} />
+      <ModuleComponent remultKitData={getData()} />
     {/await}
   {/if}
 </main>
 
 <div class="debug">
-  {#each Object.keys(modules) as module}
+  {#each Object.entries(modules) as [module]}
     <button on:click={() => loadModule(module)}>Load {module}</button>
   {/each}
 </div>

@@ -11,6 +11,7 @@ const config = defineConfig({
       kitRoutes: {
         LINKS: {
           remult_admin: '/api/admin',
+          remult_kit_auth: '/kit/auth/login',
         },
       },
     }),

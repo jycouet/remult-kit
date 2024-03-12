@@ -9,12 +9,7 @@
  * PAGES
  */
 const PAGES = {
-  "/": `/`,
-  "/remult": `/remult`,
-  "/remult/auth": `/remult/auth`,
-  "/remult/enum": `/remult/enum`,
-  "/remult/select": `/remult/select`,
-  "/ui": `/ui`
+  
 }
 
 /**
@@ -36,7 +31,6 @@ const ACTIONS = {
  */
 const LINKS = {
   "remult_admin": `/api/admin`,
-  "remult_kit_auth": `/kit/auth/login`,
   "github": (params?: { owner?: (string | number), repo?: (string | number) }) => {
     params = params ?? {}
     params.owner = params.owner ?? "jycouet"; 
@@ -145,9 +139,9 @@ export function route<T extends keyof AllTypes>(key: T, ...params: any[]): strin
 * ```
 */
 export type KIT_ROUTES = {
-  PAGES: { '/': never, '/remult': never, '/remult/auth': never, '/remult/enum': never, '/remult/select': never, '/ui': never }
+  PAGES: Record<string, never>
   SERVERS: Record<string, never>
   ACTIONS: Record<string, never>
-  LINKS: { 'remult_admin': never, 'remult_kit_auth': never, 'github': 'owner' | 'repo' }
+  LINKS: { 'remult_admin': never, 'github': 'owner' | 'repo' }
   Params: { owner: never, repo: never }
 }

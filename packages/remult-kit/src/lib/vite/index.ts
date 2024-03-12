@@ -60,7 +60,7 @@ export function remultKit<KIT_ROUTES extends RouteMappings>(options?: {
       decorators: ['BackendMethod'],
       hard: true,
       debug: options?.stripper?.debug ?? false,
-      nullify: [],
+      nullify: ['$env/dynamic/private', '$env/static/private'],
     }),
   ]
 }
