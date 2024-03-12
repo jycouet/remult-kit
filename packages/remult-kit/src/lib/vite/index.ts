@@ -36,6 +36,7 @@ export function remultKit<KIT_ROUTES extends RouteMappings>(options?: {
     ...kitRoutes<KIT_ROUTES>({
       ...(options?.kitRoutes ?? {}),
       ...{
+        format_page_route_id: true,
         logs: {
           ...options?.kitRoutes?.logs,
           post_update_run: false,
