@@ -10,6 +10,7 @@ import { kitStoreItem } from './kitStoreItem.js'
 import { kitStoreList } from './kitStoreList.js'
 import { default as Button } from './ui/Button.svelte'
 import { default as DialogManagement } from './ui/dialog/DialogManagement.svelte'
+import { default as FormEditAction } from './ui/dialog/FormEditAction.svelte'
 import { default as Field } from './ui/Field.svelte'
 import { default as FieldGroup } from './ui/FieldGroup.svelte'
 import { default as Grid } from './ui/Grid.svelte'
@@ -26,6 +27,7 @@ export const KitRole = {
 
 export {
   Field,
+  FormEditAction,
   Grid,
   GridPaginate,
   FieldGroup,

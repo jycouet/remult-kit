@@ -62,23 +62,23 @@
     "sveltekit"
   ],
   "scripts": {
-    "prepare": "svelte-kit sync",
-    "dev": "vite dev",
     "//// ---- BEST PRACTICES ---- ////": "",
+    "//// ---- PROD ---- ////": "",
+    "//// ---- TEST ---- ////": "",
+    "//// ---- THE END ---- ////": "",
+    "build": "vite build && npm run package && node ./scripts/package.js",
+    "dev": "vite dev",
     "format": "kitql-lint -f",
     "lint": "kitql-lint",
-    "ts": "svelte-check --tsconfig ./tsconfig.json",
-    "ts:w": "svelte-check --tsconfig ./tsconfig.json --watch",
-    "//// ---- TEST ---- ////": "",
+    "package": "svelte-package",
+    "prepare": "svelte-kit sync",
+    "push": "cd dist && npm publish --tag exp",
     "test:bin": "pnpm build && node ./dist/esm/bin/cmd.js",
     "test:e2e_HOLD": "playwright test",
     "test:unit": "TZ=Europe/Paris vitest",
     "test:unit:ci": "TZ=Europe/Paris vitest run",
-    "//// ---- PROD ---- ////": "",
-    "build": "vite build && npm run package && node ./scripts/package.js",
-    "package": "svelte-package",
-    "push": "cd dist && npm publish --tag exp",
-    "//// ---- THE END ---- ////": ""
+    "ts": "svelte-check --tsconfig ./tsconfig.json",
+    "ts:w": "svelte-check --tsconfig ./tsconfig.json --watch"
   },
   "peerDependencies": {
     "@sveltejs/kit": ">=1.0.0 <3.0.0",

@@ -4,16 +4,12 @@
   import {
     FieldGroup,
     getRepoDisplayValue,
-    LibIcon_Add,
-    LibIcon_Check,
-    LibIcon_Delete,
   } from '../..'
   import { kitCellsBuildor } from '../../kitCellsBuildor'
   import { kitStoreItem } from '../../kitStoreItem'
-  import Button from '../Button.svelte'
-  import Icon from '../Icon.svelte'
   import { dialog, type DialogMetaDataInternal } from './dialog'
   import DialogPrimitive from './DialogPrimitive.svelte'
+  import FormEditAction from './FormEditAction.svelte'
 
   export let toShow: DialogMetaDataInternal
   const cells = kitCellsBuildor(toShow.repo!, toShow.buildor!)
@@ -97,44 +93,6 @@
       <FieldGroup {cells} {store} mode={toShow.type === 'view' ? 'view' : 'edit'} />
     </div>
 
-    <!-- TODO: make a component out of this div -->
-    <div class="mt-2 flex items-center justify-between">
-      {#if toShow.type === 'update'}
-        {#if toShow.wDelete}
-          <Button
-            type="button"
-            on:click={onDelete}
-            class="btn-outline btn-error mr-4 text-white"
-            {isLoading}
-          >
-            <Icon data={LibIcon_Delete} />
-          </Button>
-        {/if}
-
-        <div>
-          {#if $store.globalError}
-            <span class="text-error text-xs">{$store.globalError}</span>
-          {/if}
-        </div>
-
-        <Button class="text-white" {...$$restProps} {isLoading}>
-          <Icon data={LibIcon_Check} />
-          <p>Sauvegarder</p>
-        </Button>
-      {/if}
-
-      {#if toShow.type === 'insert'}
-        <div>
-          {#if $store.globalError}
-            <span class="text-error text-xs">{$store.globalError}</span>
-          {/if}
-        </div>
-
-        <Button class="text-white" {...$$restProps} {isLoading}>
-          <Icon data={LibIcon_Add} />
-          <p>Créer</p>
-        </Button>
-      {/if}
-    </div>
+    <FormEditAction {toShow} {store} on:delete={onDelete}></FormEditAction>
   </form>
 </DialogPrimitive>
