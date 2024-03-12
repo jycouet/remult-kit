@@ -16,9 +16,12 @@ yarn.lock
 package.json
  
 # Ignore files that are project specific
-/db
+/packages/remult-kit/db
+/src/lib/auth/static
+CHANGELOG.md
 
 # format not working well there for now
+*.json
 +page.md
 ROUTES.ts
 *.svelte.d.ts

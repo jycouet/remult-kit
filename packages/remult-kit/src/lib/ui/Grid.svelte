@@ -1,8 +1,7 @@
 <script lang="ts" generics="T extends Record<any, any>">
   import { createEventDispatcher } from 'svelte'
 
-  
-import {
+  import {
     displayWithDefaultAndSuffix,
     getEntityDisplayValue,
     getEntityDisplayValueFromField,
