@@ -1,10 +1,7 @@
 <script lang="ts">
   import { writable } from 'svelte/store'
 
-  import {
-    FieldGroup,
-    getRepoDisplayValue,
-  } from '../..'
+  import { FieldGroup, getRepoDisplayValue } from '../..'
   import { kitCellsBuildor } from '../../kitCellsBuildor'
   import { kitStoreItem } from '../../kitStoreItem'
   import { dialog, type DialogMetaDataInternal } from './dialog'
