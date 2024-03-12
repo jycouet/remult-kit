@@ -39,10 +39,9 @@ const res = (await p.multiselect({
 })) as Keys[]
 
 pkg.devDependencies = {
-  '@kitql/eslint-config': '0.3.0',
-  '@kitql/helpers': '0.8.8',
-  remult: '0.25.5',
-  'vite-plugin-kit-routes': '0.5.2',
+  '@kitql/eslint-config': '0.3.2',
+  '@kitql/helpers': '0.8.9',
+  remult: '0.25.6-exp.7',
   pg: '8.11.3',
   ...pkg.devDependencies,
 }
@@ -303,7 +302,6 @@ export const load = (async () => {
   './vite.config.ts': [
     `import { sveltekit } from '@sveltejs/kit/vite'
 import { defineConfig } from 'vite'
-import { kitRoutes } from 'vite-plugin-kit-routes'
 
 import { remultKit } from 'remult-kit/vite'
 
@@ -311,10 +309,11 @@ import type { KIT_ROUTES } from '${libAlias}/ROUTES'
 
 export default defineConfig({
   plugins: [
-    kitRoutes<KIT_ROUTES>({
-      LINKS: { github: 'https://github.com/[owner]/[repo]' },
+    remultKit<KIT_ROUTES>({
+      kitRoutes: {
+        LINKS: { github: 'https://github.com/[owner]/[repo]' },
+      }
     }),
-    remultKit(),
     sveltekit(),
   ],
 })
