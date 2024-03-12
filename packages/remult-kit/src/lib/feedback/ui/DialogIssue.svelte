@@ -99,7 +99,7 @@
       </div>
     {:else}
       {#if issueNumber === null}
-        <Field cell={kitCellBuildor(repo(FilterEntity), 'title')} bind:value={title} />
+        <Field cell={kitCellBuildor(FilterEntity, 'title')} bind:value={title} />
       {/if}
       <Textarea bind:value={content}></Textarea>
       <div class="flex justify-between">

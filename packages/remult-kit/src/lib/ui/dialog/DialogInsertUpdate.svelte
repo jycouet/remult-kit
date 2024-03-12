@@ -9,8 +9,8 @@
   import FormEditAction from './FormEditAction.svelte'
 
   export let toShow: DialogMetaDataInternal
-  const cells = kitCellsBuildor(toShow.repo!, toShow.buildor!)
-  const store = kitStoreItem(toShow.repo!)
+  const cells = kitCellsBuildor(toShow.entity!, toShow.buildor!)
+  const store = kitStoreItem(toShow.entity!)
 
   $: {
     if (toShow.type === 'update' || toShow.type === 'view') {
@@ -25,7 +25,7 @@
     isLoading = true
     try {
       const result = await store.save()
-      const item = getRepoDisplayValue('dialogInsertUpdate', toShow.repo!, result)
+      const item = getRepoDisplayValue('dialogInsertUpdate', store.repo!, result)
 
       if (result) {
         dialog.close(toShow.id, { success: true, item })
