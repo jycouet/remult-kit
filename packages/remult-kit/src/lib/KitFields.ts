@@ -19,7 +19,11 @@ export class KitFields {
 
     const validate: FieldValidator<entityType, string>[] = []
 
-    if (!o.allowNull || o.required) {
+    if (
+      (!o.allowNull || o.required) &&
+      // if require: false is explicitly set, then we don't need to add required validator
+      o.required !== false
+    ) {
       validate.push(Validators.required('Obligatoire!'))
     }
 
@@ -50,7 +54,12 @@ export class KitFields {
     }
 
     const validate: FieldValidator<entityType, Date>[] = []
-    if (!o.allowNull || o.required) {
+
+    if (
+      (!o.allowNull || o.required) &&
+      // if require: false is explicitly set, then we don't need to add required validator
+      o.required !== false
+    ) {
       validate.push(Validators.required('Obligatoire!'))
     }
 
