@@ -8,9 +8,7 @@ services:
     branch: main
     buildCommand: npm i -g pnpm; pnpm install --production=false; pnpm -F docs build
     staticPublishPath: ./docs/dist
-    buildFilter:
-      paths:
-        - docs/**
+    # numInstances: 1
     envVars:
       - key: NODE_VERSION
         value: 21.2.0
