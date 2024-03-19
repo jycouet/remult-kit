@@ -1,6 +1,5 @@
 <script lang="ts">
   import { createCombobox, createSync, type ComboboxOptionProps } from '@melt-ui/svelte'
-  import { BROWSER } from 'esm-env'
   import { createEventDispatcher, onMount } from 'svelte'
   import { fly } from 'svelte/transition'
 
