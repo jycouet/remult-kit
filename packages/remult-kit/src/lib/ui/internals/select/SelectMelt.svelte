@@ -3,6 +3,8 @@
   import { createEventDispatcher, onMount } from 'svelte'
   import { fly } from 'svelte/transition'
 
+  import { browser } from '$app/environment'
+
   import {
     LibIcon_Check,
     LibIcon_ChevronDown,
@@ -19,9 +21,11 @@
   export let disabled: boolean = false
   export let placeholder: string = ''
   export let items: KitBaseItem[] = []
+  let totalCount: number | undefined = undefined
 
-  export let loadOptions: ((str: string) => Promise<KitBaseItem[]>) | undefined = undefined
-  // export let selectedItem: CreateComboboxProps<KitBaseItem>['defaultSelected'] = undefined
+  export let loadOptions:
+    | ((str: string) => Promise<{ items: KitBaseItem[]; totalCount: number }>)
+    | undefined = undefined
   export let value: string | undefined = undefined
   export let clearable = false
 
@@ -37,7 +41,9 @@
 
   onMount(async () => {
     if (loadOptions) {
-      items = await loadOptions('')
+      const lo = await loadOptions('')
+      items = lo.items
+      totalCount = lo.totalCount
     }
 
     // after we load items
@@ -108,12 +114,35 @@
   }
 
   let filteredItems = items
-  $: {
-    if ($touchedInput) {
+  // $: {
+  //   if ($touchedInput) {
+  //     debounce(async () => {
+  //       const normalizedInput = $inputValue.toLowerCase()
+  //       console.log(`normalizedInput`, normalizedInput)
+
+  //       if (loadOptions && normalizedInput) {
+  //         items = await loadOptions(normalizedInput)
+  //         filteredItems = items
+  //       } else {
+  //         filteredItems = items.filter((item) => {
+  //           return item.caption?.toLowerCase().includes(normalizedInput)
+  //         })
+  //       }
+  //     })
+  //   } else {
+  //     filteredItems = items
+  //   }
+  // }
+  const calcFilteredItems = (touched: boolean, str: string) => {
+    if (touched) {
       debounce(async () => {
-        const normalizedInput = $inputValue.toLowerCase()
+        const normalizedInput = str.toLowerCase()
+
         if (loadOptions) {
-          filteredItems = await loadOptions(normalizedInput)
+          const lo = await loadOptions(normalizedInput)
+          items = lo.items
+          totalCount = lo.totalCount
+          filteredItems = items
         } else {
           filteredItems = items.filter((item) => {
             return item.caption?.toLowerCase().includes(normalizedInput)
@@ -124,6 +153,9 @@
       filteredItems = items
     }
   }
+
+  $: calcFilteredItems($touchedInput, $inputValue)
+  $: browser && calcFilteredItems(true, '')
 </script>
 
 <div class="input input-bordered flex min-w-0 items-center {disabled && 'opacity-40'}">
@@ -201,5 +233,15 @@
         <li class="relative cursor-pointer rounded-md py-1 pl-8 pr-4">Aucun résultat</li>
       {/each}
     </div>
+    {#if totalCount}
+      <div class="text-center text-xs">
+        {#if items.length < totalCount}
+          ({items.length} / {totalCount})
+        {:else}
+          <!-- yes, items.length can be bigger if the selected item is not in the limit -->
+          ({items.length})
+        {/if}
+      </div>
+    {/if}
   </ul>
 {/if}

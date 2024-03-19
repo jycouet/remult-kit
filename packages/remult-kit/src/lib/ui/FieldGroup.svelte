@@ -47,57 +47,59 @@
     return mode
   }
 
-  const isDisableFieldDynamic = (c: KitCell<T>) => {
-    if (c.disabledCondition) {
-      const existsKey = c.disabledCondition.exists
-      if (existsKey) {
-        const isArray = Array.isArray($store.item?.[existsKey])
-        if (isArray && $store.item?.[existsKey]?.length) {
-          return true
-        } else if (!isArray && $store.item?.[existsKey]) {
-          return true
-        }
-      }
-    }
-  }
+  // const isDisableFieldDynamic = (c: KitCell<T>) => {
+  //   if (c.disabledCondition) {
+  //     const existsKey = c.disabledCondition.exists
+  //     if (existsKey) {
+  //       const isArray = Array.isArray($store.item?.[existsKey])
+  //       if (isArray && $store.item?.[existsKey]?.length) {
+  //         return true
+  //       } else if (!isArray && $store.item?.[existsKey]) {
+  //         return true
+  //       }
+  //     }
+  //   }
+  // }
 
-  onMount(() => {
-    dynamicValues = dynamicItemValues(cells, $store.item)
-  })
+  // onMount(() => {
+  //   dynamicValues = dynamicItemValues(cells, $store.item)
+  // })
 
   let dynamicValues: any = {}
 
-  const dynamicItemValues = (cells: KitCell<T>[], item: any) => {
-    const res: any = {}
-    for (const c of cells) {
-      if (c.filter?.on) {
-        res[c.filter?.on] = item[c.filter?.on]
-      }
-      if (c.copyForNarrowFind) {
-        c.copyForNarrowFind.forEach((key) => {
-          res[key] = item[key]
-        })
-      }
-    }
-    res.id = item?.id
-    return res
-  }
+  // const dynamicItemValues = (cells: KitCell<T>[], item: any) => {
+  //   const res: any = {}
+  //   for (const c of cells) {
+  //     if (c.filter?.on) {
+  //       res[c.filter?.on] = item[c.filter?.on]
+  //     }
+  //     if (c.copyForNarrowFind) {
+  //       c.copyForNarrowFind.forEach((key) => {
+  //         res[key] = item[key]
+  //       })
+  //     }
+  //   }
+  //   res.id = item?.id
+  //   return res
+  // }
 
-  const isDynamicValuesChanged = (cells: KitCell<T>[]) => {
-    for (const c of cells) {
-      if (c.filter?.on) {
-        if (dynamicValues[c.filter?.on] !== $store.item?.[c.filter?.on]) {
-          return true
-        }
-      }
-    }
-  }
+  // const isDynamicValuesChanged = (cells: KitCell<T>[]) => {
+  //   for (const c of cells) {
+  //     if (c.filter?.on) {
+  //       if (dynamicValues[c.filter?.on] !== $store.item?.[c.filter?.on]) {
+  //         return true
+  //       }
+  //     }
+  //   }
+  // }
 
-  $: {
-    if (isDynamicValuesChanged(cells)) {
-      dynamicValues = dynamicItemValues(cells, $store.item)
-    }
-  }
+  // $: {
+  //   if (isDynamicValuesChanged(cells)) {
+  //     dynamicValues = dynamicItemValues(cells, $store.item)
+  //   }
+  // }
+
+  $: console.log($store.item)
 
   let size = ['', 'w-1/2', 'w-1/3', 'w-1/4', 'w-1/5', 'w-1/6']
 </script>
@@ -129,8 +131,8 @@
           bind:value={$store.item[cell.field.key]}
           error={getError($store.errors, cell.field)}
           focus={focusKey === cell.field.key}
-          disabled={isDisableFieldDynamic(cell)}
         />
+        <!-- disabled={isDisableFieldDynamic(cell)} -->
       {:else}
         FieldGroup : Case not handled
       {/if}
