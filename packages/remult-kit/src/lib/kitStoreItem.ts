@@ -1,5 +1,5 @@
 import { BROWSER } from 'esm-env'
-import { derived, get, writable } from 'svelte/store'
+import { derived, get, writable, type Writable } from 'svelte/store'
 
 import type { ErrorInfo, FindOptions, Repository } from 'remult'
 // @ts-ignore
@@ -30,7 +30,10 @@ export const kitStoreItem = <T>(
   // const currentValue = writable(0);
 
   // Derived store to keep track of current and previous values
-  const historyStore = derived(
+  const historyStore = derived<
+    Writable<TheStoreItem<T>>,
+    { current: T | undefined; previous: T | undefined }
+  >(
     internalStore,
     ($currentValue, set) => {
       // Use a static variable to hold the previous value

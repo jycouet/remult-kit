@@ -1,6 +1,5 @@
 <script lang="ts">
   import { createCombobox, createSync, type ComboboxOptionProps } from '@melt-ui/svelte'
-  import { BROWSER } from 'esm-env'
   import { createEventDispatcher, onMount } from 'svelte'
   import { fly } from 'svelte/transition'
 
@@ -44,6 +43,7 @@
       const lo = await loadOptions('')
       items = lo.items
       totalCount = lo.totalCount
+      filteredItems = items
     }
 
     // after we load items
@@ -113,6 +113,7 @@
     $inputValue = $localSelected?.label ?? ''
   }
 
+  // let first = true
   let filteredItems = items
   const calcFilteredItems = (touched: boolean, str: string, loadOptionAt: Date) => {
     if (touched) {
@@ -121,6 +122,7 @@
 
         if (loadOptions) {
           const lo = await loadOptions(normalizedInput)
+
           items = lo.items
           totalCount = lo.totalCount
           filteredItems = items
@@ -136,7 +138,6 @@
   }
 
   $: calcFilteredItems($touchedInput, $inputValue, loadOptionAt)
-  $: BROWSER && calcFilteredItems(true, '', loadOptionAt)
 </script>
 
 <div class="input input-bordered flex min-w-0 items-center {disabled && 'opacity-40'}">

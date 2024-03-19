@@ -42,6 +42,7 @@
       const lo = await loadOptions('')
       items = lo.items
       totalCount = lo.totalCount
+      filteredItems = items
     }
   })
 
@@ -158,7 +159,6 @@
   }
 
   $: calcFilteredItems($touchedInput, $inputValue, loadOptionAt)
-  $: BROWSER && calcFilteredItems(true, '', loadOptionAt)
 </script>
 
 <div class="input input-bordered flex min-w-0 items-center">
