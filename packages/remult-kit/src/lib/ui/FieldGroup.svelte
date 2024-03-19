@@ -1,5 +1,5 @@
 <script lang="ts" generics="T extends Record<any, any>">
-  import { createEventDispatcher, onMount } from 'svelte'
+  import { createEventDispatcher } from 'svelte'
 
   import type { FieldMetadata } from 'remult'
   import { getRelationFieldInfo } from 'remult/internals'

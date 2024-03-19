@@ -4,7 +4,7 @@
 
   import type { FieldMetadata, FindOptions } from 'remult'
 
-  import { kitStoreList, logRemultKit, type KitBaseItem, type KitCell } from '../'
+  import { logRemultKit, type KitBaseItem, type KitCell } from '../'
   import { suffixWithS } from '../formats/strings'
   import {
     displayWithDefaultAndSuffix,

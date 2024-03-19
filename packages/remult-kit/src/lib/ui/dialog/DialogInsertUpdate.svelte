@@ -1,9 +1,7 @@
 <script lang="ts">
-  import { writable } from 'svelte/store'
-
-  import { FieldGroup, getEntityDisplayValue } from '../..'
+  
+import { FieldGroup, getEntityDisplayValue } from '../..'
   import { kitCellsBuildor } from '../../kitCellsBuildor'
-  import { kitStoreItem } from '../../kitStoreItem'
   import { dialog, type DialogMetaDataInternal } from './dialog'
   import DialogPrimitive from './DialogPrimitive.svelte'
   import FormEditAction from './FormEditAction.svelte'

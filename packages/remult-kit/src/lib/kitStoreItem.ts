@@ -1,5 +1,5 @@
 import { BROWSER } from 'esm-env'
-import { derived, get, writable, type Writable } from 'svelte/store'
+import { derived, get, writable } from 'svelte/store'
 
 import type { ErrorInfo, FindOptions, Repository } from 'remult'
 // @ts-ignore
