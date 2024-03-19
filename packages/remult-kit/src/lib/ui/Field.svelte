@@ -38,6 +38,7 @@
 
   export let clearable: boolean | undefined = undefined
   export let disabled = false
+  export let loadOptionAt = new Date()
 
   const dispatch = createEventDispatcher()
 
@@ -90,7 +91,7 @@
     return value?.id || value
   }
 
-  const getLoadOptions = async (str: string) => {
+  const getLoadOptions = async (cellsValues: any, str: string) => {
     if (metaType.kind !== 'relation') {
       return { items: [], totalCount: 0 }
     }
@@ -166,10 +167,12 @@
       totalCount = await metaTypeObj.repoTarget.count(findToUse.where)
     }
 
-    // let's get the current item if it's not in the default list
-    // TODO JYC: Maybe can be set by directly wo being fetched?
-    if (getId() && !arr.find((r) => String(r.id) === String(getId()))) {
-      arr.unshift(await metaTypeObj.repoTarget.findId(value?.id))
+    if (!cell.field?.options.multiSelect) {
+      // let's get the current item if it's not in the default list (only when there is no searchFilter going on)
+      // TODO JYC: Maybe can be set by directly wo being fetched?
+      if (str === '' && getId() && !arr.find((r) => String(r.id) === String(getId()))) {
+        arr.unshift(await metaTypeObj.repoTarget.findId(value?.id))
+      }
     }
 
     return { items: arr.map((r) => getEntityDisplayValue(metaTypeObj.repoTarget, r)), totalCount }
@@ -226,20 +229,21 @@
     </span>
   {:else if metaType.kind === 'relation'}
     {#if metaType.field.options.multiSelect}
-      Not managed today
-      <!-- <MultiSelectMelt
+      <MultiSelectMelt
         {...common(cell.field, true)}
         clearable={clearableComputed}
-        loadOptions={getLoadOptions}
+        loadOptions={(str) => getLoadOptions(cellsValues, str)}
+        {loadOptionAt}
         values={value}
         on:selected={(e) => dispatchSelected(e.detail)}
-      /> -->
+      />
     {:else}
       <!-- {items} -->
       <SelectMelt
         {...common(cell.field, true)}
         clearable={clearableComputed}
-        loadOptions={getLoadOptions}
+        loadOptions={(str) => getLoadOptions(cellsValues, str)}
+        {loadOptionAt}
         value={value?.id || value}
         on:selected={(e) => dispatchSelected(e.detail)}
         on:issue={(e) => {

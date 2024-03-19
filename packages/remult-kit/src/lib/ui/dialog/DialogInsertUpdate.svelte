@@ -10,7 +10,8 @@
 
   export let toShow: DialogMetaDataInternal
   const cells = kitCellsBuildor(toShow.repo!, toShow.buildor!)
-  const store = kitStoreItem(toShow.repo!)
+  // const store = kitStoreItem(toShow.repo!)
+  const store = toShow.store!
 
   $: {
     if (toShow.type === 'update' || toShow.type === 'view') {
@@ -78,6 +79,13 @@
 
   // $: $dynamicSelector = cells
   // $: $store.item && getDynamicBuildor()
+
+  let loadOptionAt = new Date()
+  const changed = (e: any) => {
+    if (store.onChange(e.detail)) {
+      loadOptionAt = new Date()
+    }
+  }
 </script>
 
 <DialogPrimitive
@@ -88,7 +96,13 @@
 >
   <form on:submit|preventDefault={add}>
     <div class="grid {toShow.classes?.formGrid ?? ''} gap-4 pb-4">
-      <FieldGroup {cells} {store} mode={toShow.type === 'view' ? 'view' : 'edit'} />
+      <FieldGroup
+        {cells}
+        {store}
+        mode={toShow.type === 'view' ? 'view' : 'edit'}
+        on:changed={changed}
+        {loadOptionAt}
+      />
     </div>
 
     <FormEditAction {toShow} {store} on:delete={onDelete}></FormEditAction>

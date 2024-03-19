@@ -1,9 +1,8 @@
 <script lang="ts">
   import { createCombobox, createSync, type ComboboxOptionProps } from '@melt-ui/svelte'
+  import { BROWSER } from 'esm-env'
   import { createEventDispatcher, onMount } from 'svelte'
   import { fly } from 'svelte/transition'
-
-  import { browser } from '$app/environment'
 
   import {
     LibIcon_Check,
@@ -26,6 +25,7 @@
   export let loadOptions:
     | ((str: string) => Promise<{ items: KitBaseItem[]; totalCount: number }>)
     | undefined = undefined
+  export let loadOptionAt = new Date()
   export let value: string | undefined = undefined
   export let clearable = false
 
@@ -114,26 +114,7 @@
   }
 
   let filteredItems = items
-  // $: {
-  //   if ($touchedInput) {
-  //     debounce(async () => {
-  //       const normalizedInput = $inputValue.toLowerCase()
-  //       console.log(`normalizedInput`, normalizedInput)
-
-  //       if (loadOptions && normalizedInput) {
-  //         items = await loadOptions(normalizedInput)
-  //         filteredItems = items
-  //       } else {
-  //         filteredItems = items.filter((item) => {
-  //           return item.caption?.toLowerCase().includes(normalizedInput)
-  //         })
-  //       }
-  //     })
-  //   } else {
-  //     filteredItems = items
-  //   }
-  // }
-  const calcFilteredItems = (touched: boolean, str: string) => {
+  const calcFilteredItems = (touched: boolean, str: string, loadOptionAt: Date) => {
     if (touched) {
       debounce(async () => {
         const normalizedInput = str.toLowerCase()
@@ -154,8 +135,8 @@
     }
   }
 
-  $: calcFilteredItems($touchedInput, $inputValue)
-  $: browser && calcFilteredItems(true, '')
+  $: calcFilteredItems($touchedInput, $inputValue, loadOptionAt)
+  $: BROWSER && calcFilteredItems(true, '', loadOptionAt)
 </script>
 
 <div class="input input-bordered flex min-w-0 items-center {disabled && 'opacity-40'}">

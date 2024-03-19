@@ -1,5 +1,5 @@
 <script lang="ts" generics="T extends Record<any, any>">
-  import { onMount } from 'svelte'
+  import { createEventDispatcher, onMount } from 'svelte'
 
   import type { FieldMetadata } from 'remult'
   import { getRelationFieldInfo } from 'remult/internals'
@@ -17,6 +17,7 @@
   export let store: KitStoreItem<T>
 
   export let focusKey: string | null | undefined = null
+  export let loadOptionAt = new Date()
 
   const getError = (errors: any, field: FieldMetadata<any, any>) => {
     const fo = getRelationFieldInfo(field)
@@ -65,7 +66,7 @@
   //   dynamicValues = dynamicItemValues(cells, $store.item)
   // })
 
-  let dynamicValues: any = {}
+  // let dynamicValues: any = {}
 
   // const dynamicItemValues = (cells: KitCell<T>[], item: any) => {
   //   const res: any = {}
@@ -99,7 +100,13 @@
   //   }
   // }
 
-  $: console.log($store.item)
+  const dispatch = createEventDispatcher()
+
+  function dispatchChanged(_data: T | undefined) {
+    dispatch('changed', _data)
+  }
+
+  $: dispatchChanged($store.item)
 
   let size = ['', 'w-1/2', 'w-1/3', 'w-1/4', 'w-1/5', 'w-1/6']
 </script>
@@ -131,6 +138,7 @@
           bind:value={$store.item[cell.field.key]}
           error={getError($store.errors, cell.field)}
           focus={focusKey === cell.field.key}
+          {loadOptionAt}
         />
         <!-- disabled={isDisableFieldDynamic(cell)} -->
       {:else}
