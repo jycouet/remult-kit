@@ -1,4 +1,4 @@
-import type { PluginOption } from 'vite'
+import { mergeConfig, type PluginOption } from 'vite'
 import { kitRoutes, type Options, type RouteMappings } from 'vite-plugin-kit-routes'
 import { stripper } from 'vite-plugin-stripper'
 
@@ -18,18 +18,24 @@ export function remultKit<KIT_ROUTES extends RouteMappings>(options?: {
       enforce: 'pre',
 
       config: async (a) => {
-        // THE ERROR:
-        // RollupError: Unexpected character '�'
-        // This code (A) is to fix in `build` mode
-        a.build = {
-          rollupOptions: {
-            external: toRemove,
+        mergeConfig(
+          a,
+          {
+            build: {
+              // THE ERROR:
+              // RollupError: Unexpected character '�'
+              // This code (A) is to fix in `build` mode
+              rollupOptions: {
+                external: toRemove,
+              },
+            },
+            // This code (B) is to fix in `dev` mode
+            optimizeDeps: {
+              exclude: toRemove,
+            },
           },
-        }
-        // This code (B) is to fix in `dev` mode
-        a.optimizeDeps = {
-          exclude: toRemove,
-        }
+          true,
+        )
       },
     },
 
@@ -60,7 +66,7 @@ export function remultKit<KIT_ROUTES extends RouteMappings>(options?: {
       decorators: ['BackendMethod'],
       hard: true,
       debug: options?.stripper?.debug ?? false,
-      nullify: [],
+      nullify: ['$env/static/private', '$env/dynamic/private'],
     }),
   ]
 }

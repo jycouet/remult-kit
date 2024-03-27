@@ -13,11 +13,15 @@ package.json
 pnpm-lock.yaml
 package-lock.json
 yarn.lock
+package.json
  
 # Ignore files that are project specific
 /db
 
 # format not working well there for now
 +page.md
+CHANGELOG.md
 ROUTES.ts
 *.svelte.d.ts
+packages/remult-kit/src/lib/auth/static
+packages/remult-kit/db

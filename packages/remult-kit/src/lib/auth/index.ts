@@ -9,6 +9,7 @@ import { Lucia, TimeSpan, type SessionCookieOptions } from 'lucia'
 import { remult } from 'remult'
 import type { ClassType, UserInfo } from 'remult'
 import { Log, red } from '@kitql/helpers'
+import { read } from '@kitql/internals'
 
 import { KitRole } from '$lib'
 import type { ResolvedType } from '$lib/utils/types'
@@ -18,6 +19,7 @@ import { RemultLuciaAdapter } from './Adapter'
 import { AuthController, createSession } from './AuthController'
 import { KitAuthAccount, KitAuthRole, KitAuthUser, KitAuthUserSession } from './Entities'
 import { RoleController } from './RoleController'
+import type { RemultKitData } from './types'
 
 export { KitAuthUser, KitAuthAccount, AuthProvider, KitAuthUserSession } from './Entities'
 export { AuthController } from './AuthController'
@@ -81,6 +83,21 @@ type AuthOptions<
     Session?: ClassType<TSessionEntity>
     Account?: ClassType<TAccountEntity>
   }
+
+  ui?:
+    | {
+        paths?: {
+          base?: string
+          login?: string
+          forgotPassword?: string
+          // forgotPassword?: string
+          // resetPassword?: string
+          // verifyEmail?: string
+          // profile?: string
+        }
+        strings?: Record<string, string>
+      }
+    | false
 
   /** in secondes @default 15 days */
   sessionExpiresIn?: number
@@ -174,6 +191,60 @@ export const auth: (o: AuthOptions) => Module = (o) => {
       }
     },
     earlyReturn: async ({ event, resolve }) => {
+      if (AUTH_OPTIONS.ui === false) {
+        return { early: false }
+      }
+
+      // TODO: maange default values
+      const base = AUTH_OPTIONS.ui?.paths?.base ?? '/kit/auth'
+
+      if (event.url.pathname.startsWith(base)) {
+        const providers =
+          AUTH_OPTIONS.providers?.oAuths?.map((o) => {
+            return o.name
+          }) ?? []
+
+        const remultKitData: RemultKitData = {
+          module: 'auth',
+          props: {
+            providers,
+            paths: { base, login: '/login', forgottenPassword: '/forgottenPassword' },
+          },
+        }
+
+        return {
+          early: true,
+          resolve: new Response(
+            read('src/lib/auth/static/index.html') +
+              `<script>const remultKitData = ${JSON.stringify(remultKitData)}</script>`,
+            {
+              headers: { 'content-type': 'text/html' },
+            },
+          ),
+        }
+      }
+
+      if (event.url.pathname.startsWith('/api/static')) {
+        const content = read(
+          `src/lib/auth/static/${event.url.pathname.replaceAll('/api/static/', '')}`,
+        )
+        if (content) {
+          const seg = event.url.pathname.split('.')
+          const map: Record<string, string> = {
+            js: 'text/javascript',
+            css: 'text/css',
+            svg: 'image/svg+xml',
+          }
+
+          return {
+            early: true,
+            resolve: new Response(content, {
+              headers: { 'content-type': map[seg[seg.length - 1]] ?? 'text/plain' },
+            }),
+          }
+        }
+      }
+
       if (event.url.pathname === '/api/auth_callback') {
         const code = event.url.searchParams.get('code')
         const state = event.url.searchParams.get('state')
