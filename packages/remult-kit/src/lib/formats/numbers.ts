@@ -34,3 +34,7 @@ export function displayPercent(value: number | undefined): string {
   }
   return formatNumber(value) + ' %'
 }
+
+export function displayHour(_entity: any, val: number) {
+  return val ? `${val} h` : '0 h'
+}
