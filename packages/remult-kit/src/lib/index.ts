@@ -11,6 +11,7 @@ import type { KitCellsInput as KitCellsInputForExport } from './kitCellsBuildor.
 import { kitStoreItem } from './kitStoreItem.js'
 import { kitStoreList } from './kitStoreList.js'
 import { default as Button } from './ui/Button.svelte'
+import { default as Clipboardable } from './ui/Clipboardable.svelte'
 import { default as DialogManagement } from './ui/dialog/DialogManagement.svelte'
 import { default as FormEditAction } from './ui/dialog/FormEditAction.svelte'
 import { default as Field } from './ui/Field.svelte'
@@ -23,7 +24,6 @@ import { default as Link } from './ui/link/Link.svelte'
 import { default as LinkPlus } from './ui/link/LinkPlus.svelte'
 import { default as Loading } from './ui/Loading.svelte'
 import { default as Tooltip } from './ui/Tooltip.svelte'
-import { default as Clipboardable } from './virtual/Clipboardable.svelte'
 
 export const logRemultKit = new Log('remult-kit')
 
