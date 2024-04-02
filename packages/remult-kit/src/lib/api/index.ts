@@ -5,6 +5,8 @@ import { remultSveltekit } from 'remult/remult-sveltekit'
 import type { RemultServerOptions } from 'remult/server'
 import { Log } from '@kitql/helpers'
 
+import { building } from '$app/environment'
+
 export type Module = {
   /**
    * The name of the module (usefull for logging and debugging purposes)
@@ -84,14 +86,16 @@ export const remultKit = (o: Options) => {
         }
       },
       initApi: async (r) => {
-        for (let i = 0; i < modulesSorted.length; i++) {
-          const f = modulesSorted[i].initApi
-          if (f) {
-            try {
-              await f(r)
-            } catch (error) {
-              const log = new Log(`remult-kit [${modulesSorted[i].name}]`)
-              log.error(error)
+        if (!building) {
+          for (let i = 0; i < modulesSorted.length; i++) {
+            const f = modulesSorted[i].initApi
+            if (f) {
+              try {
+                await f(r)
+              } catch (error) {
+                const log = new Log(`remult-kit [${modulesSorted[i].name}]`)
+                log.error(error)
+              }
             }
           }
         }
