@@ -18,10 +18,12 @@ import { default as FieldGroup } from './ui/FieldGroup.svelte'
 import { default as Grid } from './ui/Grid.svelte'
 import { default as GridPaginate } from './ui/GridPaginate.svelte'
 import { default as Icon } from './ui/Icon.svelte'
+import { default as SelectMelt } from './ui/internals/SelectMelt.svelte'
 import { default as Link } from './ui/link/Link.svelte'
 import { default as LinkPlus } from './ui/link/LinkPlus.svelte'
 import { default as Loading } from './ui/Loading.svelte'
 import { default as Tooltip } from './ui/Tooltip.svelte'
+import { default as Clipboardable } from './virtual/Clipboardable.svelte'
 
 export const logRemultKit = new Log('remult-kit')
 
@@ -42,13 +44,16 @@ export {
   Button,
   Tooltip,
   DialogManagement,
+  SelectMelt,
+  Clipboardable,
 }
 export { dialog } from './ui/dialog/dialog.js'
+export type { DialogMetaDataInternal } from './ui/dialog/dialog.js'
 export { KitBaseEnum, getEnum, getEnums } from './KitBaseEnum.js'
 export type { KitBaseEnumOptions } from './KitBaseEnum.js'
 export { KitFields } from './KitFields.js'
 export { LogToConsoleCustom } from './SqlDatabase/LogToConsoleCustom.js'
-export { getEntityDisplayValue, isError, kitDbNamesOf } from './helper.js'
+export { getEntityDisplayValue, isError, kitDbNamesOf, getFieldLinkDisplayValue } from './helper.js'
 export {
   buildWhere,
   getPlaceholder,
