@@ -96,6 +96,7 @@ export {
   LibIcon_ChevronRight,
   LibIcon_Search,
   LibIcon_Check,
+  LibIcon_MultiCheck,
   LibIcon_Add,
   LibIcon_MultiAdd,
   LibIcon_Edit,
@@ -104,7 +105,12 @@ export {
   LibIcon_Save,
   LibIcon_Man,
   LibIcon_Woman,
-  LibIcon_MultiCheck,
+  LibIcon_Send,
+  LibIcon_Load,
+  LibIcon_Settings,
+  LibIcon_Sort,
+  LibIcon_SortAsc,
+  LibIcon_SortDesc,
 } from './ui/LibIcon.js'
 
 export type { KitIcon }
