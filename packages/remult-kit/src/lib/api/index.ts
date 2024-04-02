@@ -38,9 +38,13 @@ type Options = Omit<
  */
 export const remultKit = (o: Options) => {
   const modulesSorted = modulesFlatAndOrdered(o.modules ?? [])
+  const entities = modulesSorted.flatMap((m) => m.entities ?? [])
 
   return {
     modulesSorted: modulesSorted,
+
+    entities,
+
     server: remultSveltekit({
       // Changing the default default of remult
       logApiEndPoints: false,
@@ -51,7 +55,7 @@ export const remultKit = (o: Options) => {
       ...o,
 
       // Module part
-      entities: modulesSorted.flatMap((m) => m.entities ?? []),
+      entities,
       controllers: modulesSorted.flatMap((m) => m.controllers ?? []),
       initRequest: async (kitEvent, op) => {
         // usefull for later...
