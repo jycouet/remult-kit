@@ -35,8 +35,6 @@ export class KitFields {
       // if require: false is explicitly set, then we don't need to add required validator
       o.required !== false
     ) {
-      // REMULT P2 Type issue Type 'string' is not assignable to type 'number'.
-      // @ts-ignore
       validate.push(Validators.required)
     }
 
@@ -73,8 +71,6 @@ export class KitFields {
       // if require: false is explicitly set, then we don't need to add required validator
       o.required !== false
     ) {
-      // REMULT P2 Type issue Type 'string' is not assignable to type 'number'.
-      // @ts-ignore
       validate.push(Validators.required)
     }
 
