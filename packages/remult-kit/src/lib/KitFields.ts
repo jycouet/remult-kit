@@ -36,7 +36,7 @@ export class KitFields {
       o.required !== false
     ) {
       // REMULT P2 Type issue Type 'string' is not assignable to type 'number'.
-      //// @ts-ignore
+      // @ts-ignore
       validate.push(Validators.required)
     }
 
