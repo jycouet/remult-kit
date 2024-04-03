@@ -8,19 +8,21 @@ import {
 
 import { displayCurrencyWOSuffix } from './formats'
 
-// static string<entityType = any, valueType = string>(
-//   ...param: Parameters<typeof Fields.string<entityType, valueType>>
-// ) {
+export function addValidator(
+  validators: FieldOptions['validate'],
+  newValidator: FieldOptions['validate'],
+  atStart = false,
+) {
+  if (!newValidator) return validators
+  const newValidators = Array.isArray(newValidator) ? newValidator : [newValidator]
+  const validatorsArray = Array.isArray(validators) ? validators : validators ? [validators] : []
+  return atStart ? [...newValidators, ...validatorsArray] : [...validatorsArray, ...newValidators]
+}
+
 export class KitFields {
   static string<entityType = any, valueType = string>(
     o?: StringFieldOptions<entityType, valueType> & FieldOptions<entityType, valueType>,
   ) {
-    // const f = Fields.string(...param)
-
-    // f.validate = addValidator(f.validate, Validators.required)
-
-    // return f
-
     // empty if there is nothing coming here.
     if (o === undefined) {
       o = {}
@@ -34,7 +36,7 @@ export class KitFields {
       o.required !== false
     ) {
       // REMULT P2 Type issue Type 'string' is not assignable to type 'number'.
-      // @ts-ignore
+      //// @ts-ignore
       validate.push(Validators.required)
     }
 
