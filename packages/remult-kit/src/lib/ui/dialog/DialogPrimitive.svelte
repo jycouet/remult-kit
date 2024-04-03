@@ -59,7 +59,7 @@
       {...$content}
       use:$content.action
     >
-      <div class="grid min-w-[25rem] gap-4">
+      <div class="flex h-full min-w-[25rem] flex-col gap-4">
         <h2 {...$localTitle} use:$localTitle.action class="m-0 text-lg font-medium">
           <div class="flex items-center justify-between gap-4">
             <LinkPlus item={detail}></LinkPlus>
@@ -74,9 +74,9 @@
             </button>
           </div>
         </h2>
-        <div>
-          <slot />
-        </div>
+
+        <slot />
+
         {#if $$slots.actions}
           <div class="mt-2 flex items-end justify-end">
             <slot name="actions" />
