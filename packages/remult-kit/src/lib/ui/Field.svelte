@@ -66,7 +66,7 @@
       ...toRet,
       step: _field?.options?.step ?? undefined,
       name: _field?.key,
-      required: _field?.allowNull === false,
+      // required: _field?.allowNull === false,
     }
   }
 
