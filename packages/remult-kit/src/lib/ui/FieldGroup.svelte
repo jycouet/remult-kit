@@ -109,9 +109,24 @@
   $: dispatchChanged($store.item)
 
   let size = ['', 'w-1/2', 'w-1/3', 'w-1/4', 'w-1/5', 'w-1/6']
+
+  function isToFocus(
+    currentKey: string | undefined,
+    focusKey: string | null | undefined,
+    i: number,
+  ): boolean {
+    if (focusKey === null || focusKey === undefined) {
+      if (i === 0) {
+        return true
+      }
+      return false
+    }
+    return focusKey === currentKey
+  }
 </script>
 
 {#each cells as cell, i}
+  {@const focus = isToFocus(cell.field?.key, focusKey, i)}
   {#if shouldHide(cell, mode)}
     <!-- Do nothing -->
   {:else}
@@ -129,7 +144,7 @@
           />
         </FieldContainer>
       {:else if cell.kind === 'slot'}
-        <slot name="field" field={cell.field} />
+        <slot name="field" field={cell.field} {focus} />
       {:else if cell.field && $store.item}
         <Field
           mode={modeToUse(cell, mode)}
@@ -137,7 +152,7 @@
           cellsValues={$store.item}
           bind:value={$store.item[cell.field.key]}
           error={getError($store.errors, cell.field)}
-          focus={focusKey === cell.field.key}
+          {focus}
           {loadOptionAt}
           on:createRequest
         />

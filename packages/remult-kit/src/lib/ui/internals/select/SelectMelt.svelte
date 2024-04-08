@@ -22,6 +22,13 @@
   export let items: KitBaseItem[] = []
   let totalCount: number | undefined = undefined
 
+  export let focus: boolean = false
+  const focusNow = (node: any) => {
+    if (focus) {
+      node.focus()
+    }
+  }
+
   export let loadOptions:
     | ((str: string) => Promise<{ items: KitBaseItem[]; totalCount: number }>)
     | undefined = undefined
@@ -170,6 +177,7 @@
   </div>
   <!-- {id} -->
   <input
+    use:focusNow
     {...$input}
     use:$input.action
     class="-mx-8 h-full min-w-0 flex-grow bg-transparent px-10"

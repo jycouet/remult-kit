@@ -8,8 +8,6 @@
 
   const dispatch = createEventDispatcher()
 
-  // OPTION Focus
-  // const focus = async (el) => tick().then(() => el.focus())
   export let focus: boolean = false
   const focusNow = (node: any) => {
     if (focus) {

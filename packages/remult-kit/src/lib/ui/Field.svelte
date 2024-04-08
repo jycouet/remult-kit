@@ -308,6 +308,7 @@
     </div>
   {:else if metaType.subKind === 'textarea'}
     <Textarea
+      {focus}
       {...common(cell.field)}
       value={toInput(cell.field, value)}
       on:input={(e) => {
