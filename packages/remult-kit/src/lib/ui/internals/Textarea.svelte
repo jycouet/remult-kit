@@ -1,5 +1,5 @@
 <script lang="ts">
-  import { createEventDispatcher, onMount, tick } from 'svelte'
+  import { createEventDispatcher, onMount } from 'svelte'
 
   import { scrollbar } from '../../theme'
 
