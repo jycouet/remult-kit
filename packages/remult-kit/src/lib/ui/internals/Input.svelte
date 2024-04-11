@@ -52,6 +52,27 @@
       dispatchInput(value)
     }
   }
+
+  const handleKeyup = (event: KeyboardEvent) => {
+    if ($$restProps.type === 'date') {
+      // @ts-ignore
+      const rawInput = event.target.value as string
+
+      const rawDateSplited = rawInput.split('-')
+
+      if (rawDateSplited.length === 3) {
+        const yearSplited = rawDateSplited[0].split('')
+        if (
+          yearSplited.length === 4 &&
+          yearSplited[0] === '0' &&
+          yearSplited[1] === '0' &&
+          yearSplited[2] !== '0'
+        ) {
+          value = `20${yearSplited[2]}${yearSplited[3]}-${rawDateSplited[1]}-${rawDateSplited[2]}`
+        }
+      }
+    }
+  }
 </script>
 
 <input
@@ -65,7 +86,7 @@
   on:focus
   on:keydown
   on:keypress
-  on:keyup
+  on:keyup={handleKeyup}
   on:mouseover
   on:mouseenter
   on:mouseleave
