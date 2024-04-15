@@ -1,4 +1,4 @@
-<script lang="ts">
+<script lang="ts" generics="T extends any">
   import { createEventDispatcher } from 'svelte'
 
   import type { KitStoreItem } from '../..'
@@ -8,7 +8,7 @@
   import type { DialogMetaDataInternal } from './dialog'
 
   export let toShow: DialogMetaDataInternal
-  export let store: KitStoreItem<any>
+  export let store: KitStoreItem<T>
 
   const dispatch = createEventDispatcher()
 
