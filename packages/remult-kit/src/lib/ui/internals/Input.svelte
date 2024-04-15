@@ -25,7 +25,11 @@
     }, 444)
   }
   function dispatchInput(value: any) {
-    dispatch('input', { value })
+    if ($$restProps.type === 'date') {
+      dispatch('input', { value: transformDate(value) })
+    } else {
+      dispatch('input', { value })
+    }
   }
 
   let className: string | undefined | null = undefined
@@ -53,24 +57,28 @@
     }
   }
 
+  const transformDate = (input: string) => {
+    const rawDateSplited = input.split('-')
+
+    if (rawDateSplited.length === 3) {
+      const yearSplited = rawDateSplited[0].split('')
+      if (
+        yearSplited.length === 4 &&
+        yearSplited[0] === '0' &&
+        yearSplited[1] === '0' &&
+        yearSplited[2] !== '0'
+      ) {
+        return `20${yearSplited[2]}${yearSplited[3]}-${rawDateSplited[1]}-${rawDateSplited[2]}`
+      }
+    }
+
+    return input
+  }
+
   const handleKeyup = (event: KeyboardEvent) => {
     if ($$restProps.type === 'date') {
       // @ts-ignore
-      const rawInput = event.target.value as string
-
-      const rawDateSplited = rawInput.split('-')
-
-      if (rawDateSplited.length === 3) {
-        const yearSplited = rawDateSplited[0].split('')
-        if (
-          yearSplited.length === 4 &&
-          yearSplited[0] === '0' &&
-          yearSplited[1] === '0' &&
-          yearSplited[2] !== '0'
-        ) {
-          value = `20${yearSplited[2]}${yearSplited[3]}-${rawDateSplited[1]}-${rawDateSplited[2]}`
-        }
-      }
+      value = transformDate(event.target.value)
     }
   }
 </script>
