@@ -2,8 +2,6 @@ import { BROWSER } from 'esm-env'
 import { derived, get, writable, type Writable } from 'svelte/store'
 
 import type { ErrorInfo, FindOptions, Repository } from 'remult'
-// @ts-ignore
-import type { idType } from 'remult/src/remult3/remult3'
 import { Log } from '@kitql/helpers'
 
 import { isError } from './helper'
@@ -63,7 +61,12 @@ export const kitStoreItem = <T>(
       })
     },
 
-    fetch: async (id: idType<T>, options?: FindOptions<T>, onNewData?: (item: T) => void) => {
+    fetch: async (
+      // REMULT P2: findId type when it's not id, but 2 or 3 id fields?
+      id: Parameters<Repository<T>['findId']>[0],
+      options?: FindOptions<T>,
+      onNewData?: (item: T) => void,
+    ) => {
       if (BROWSER) {
         internalStore.update((s) => ({ ...s, loading: true }))
 
