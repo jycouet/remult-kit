@@ -31,6 +31,7 @@ export class KitFields {
     const validate: FieldValidator<entityType, valueType>[] = []
 
     if (
+      o.includeInApi !== false &&
       (!o.allowNull || o.required) &&
       // if require: false is explicitly set, then we don't need to add required validator
       o.required !== false
@@ -67,6 +68,7 @@ export class KitFields {
     const validate: FieldValidator<entityType, Date>[] = []
 
     if (
+      o.includeInApi !== false &&
       (!o.allowNull || o.required) &&
       // if require: false is explicitly set, then we don't need to add required validator
       o.required !== false
