@@ -28,12 +28,12 @@ it('First query short', () => {
   )
 })
 
-it('with in', () => {
+it('should have proper args when it has in statements in the SELECT', () => {
   const sql = `select 
 		"id", "updatedAt"
 		from "excel_material" where "id" in ($1,$2,$3) Order By "id"`
 
   expect(LogToConsoleCustom(0.123, sql, { $1: 'a', $2: 'b', $3: 'c' })).toMatchInlineSnapshot(
-    `"🔵 [46m123 ms [49m [36mSELECT[39m [32mexcel_material[39m { id: [33m'a'[39m,$2,$3) }"`,
+    `"🔵 [46m123 ms [49m [36mSELECT[39m [32mexcel_material[39m { id: ([33m'a'[39m,[33m'b'[39m,[33m'c'[39m) }"`,
   )
 })
