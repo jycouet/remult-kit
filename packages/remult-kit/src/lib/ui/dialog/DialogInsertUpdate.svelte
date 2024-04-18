@@ -1,5 +1,5 @@
 <script lang="ts">
-  import { FieldGroup, getEntityDisplayValue, kitStoreItem } from '../..'
+  import { FieldGroup, kitStoreItem } from '../..'
   import { kitCellsBuildor } from '../../kitCellsBuildor'
   import { dialog, type DialogMetaDataInternal } from './dialog'
   import DialogPrimitive from './DialogPrimitive.svelte'
@@ -17,15 +17,19 @@
     }
   }
 
+  const onCreate = (e: CustomEvent) => {
+    dialog.close(toShow.id, { success: true, createRequest: e.detail })
+  }
+
   let isLoading = false
-  const add = async () => {
+  const onInsert = async () => {
     isLoading = true
     try {
       const result = await store.save()
-      const item = getEntityDisplayValue(toShow.repo!, result)
+      // const item = getEntityDisplayValue(toShow.repo!, result)
 
       if (result) {
-        dialog.close(toShow.id, { success: true, item })
+        dialog.close(toShow.id, { success: true, item: result })
       }
     } catch (e) {
       // in some cases we don't want to throw.
@@ -43,12 +47,8 @@
     const res = await dialog.confirmDelete('')
     if (res.success) {
       await store.delete()
-      dialog.close(toShow.id, { success: true })
+      dialog.close(toShow.id, { success: true, item: $store.item })
     }
-  }
-
-  const onCreateRequest = (e: CustomEvent) => {
-    dialog.close(toShow.id, { success: true, createRequest: e.detail })
   }
 
   let loadOptionAt = new Date()
@@ -65,7 +65,7 @@
   classes={{ root: toShow.classes?.root }}
   on:change={() => dialog.close(toShow.id, { success: false })}
 >
-  <form on:submit|preventDefault={add}>
+  <form on:submit|preventDefault={onInsert}>
     <div class="grid {toShow.classes?.formGrid ?? ''} gap-4 pb-4">
       <FieldGroup
         {cells}
@@ -73,7 +73,7 @@
         mode={toShow.type === 'view' ? 'view' : 'edit'}
         on:changed={changed}
         {loadOptionAt}
-        on:createRequest={onCreateRequest}
+        on:createRequest={onCreate}
       />
     </div>
 
