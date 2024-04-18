@@ -8,6 +8,12 @@ import {
 
 import { displayCurrencyWOSuffix } from './formats'
 
+// Translate default messages
+// REMULT P2: I need to set this here the one of my app are not overwriting these...
+// It look like I have 2 remult loaded... But even trying to remove one, I still have the issue
+Validators.unique.defaultMessage = 'Existe déjà!'
+Validators.required.defaultMessage = 'Obligatoire!'
+
 export function addValidator(
   validators: FieldOptions['validate'],
   newValidator: FieldOptions['validate'],
