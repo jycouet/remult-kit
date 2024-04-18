@@ -1,6 +1,6 @@
 <script lang="ts">
   import { createCombobox, createSync, type ComboboxOptionProps } from '@melt-ui/svelte'
-  import { createEventDispatcher, onMount } from 'svelte'
+  import { createEventDispatcher, onMount, tick } from 'svelte'
   import { fly } from 'svelte/transition'
 
   import {
@@ -25,7 +25,9 @@
   export let focus: boolean = false
   const focusNow = (node: any) => {
     if (focus) {
-      node.focus()
+      tick().then(() => {
+        node.focus()
+      })
     }
   }
 
@@ -177,11 +179,11 @@
   </div>
   <!-- {id} -->
   <input
-    use:focusNow
     {...$input}
     use:$input.action
     class="-mx-8 h-full min-w-0 flex-grow bg-transparent px-10"
     {placeholder}
+    use:focusNow
   />
   <div class="pointer-events-none relative right-0 flex gap-2">
     {#if clearable && $localSelected}

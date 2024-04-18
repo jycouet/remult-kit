@@ -228,6 +228,7 @@
     {:else}
       <!-- {items} -->
       <SelectMelt
+        {focus}
         {...common(cell.field, true)}
         clearable={clearableComputed}
         loadOptions={async (str) => await getLoadOptions(cellsValues, str)}
@@ -259,6 +260,7 @@
       />
     {:else}
       <SelectMelt
+        {focus}
         {...common(cell.field, true)}
         clearable={clearableComputed}
         items={metaType.values}
