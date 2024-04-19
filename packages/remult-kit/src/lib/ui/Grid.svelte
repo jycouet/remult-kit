@@ -122,6 +122,19 @@
               <td class={align(b.field)}>
                 {#if metaType.kind === 'slot' || b.kind === 'slot'}
                   <slot name="cell" {row} field={b.field} />
+                {:else if b.kind === 'component'}
+                  {#if b.component}
+                    <div class={b.class}>
+                      <svelte:component
+                        this={b.component}
+                        {...b.props}
+                        {...b.rowToProps ? b.rowToProps(row) : {}}
+                      ></svelte:component>
+                    </div>
+                  {:else}
+                    <pre>Col: {b.col}</pre>
+                    <pre class="bg-error">Component prop needed !</pre>
+                  {/if}
                 {:else if metaType.kind === 'relation'}
                   {@const item = getEntityDisplayValue(
                     metaType.repoTarget,

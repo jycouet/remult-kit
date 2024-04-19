@@ -1,3 +1,5 @@
+import type { SvelteComponent } from 'svelte'
+
 import { type EntityFilter, type FieldMetadata, type Repository } from 'remult'
 import { getRelationFieldInfo } from 'remult/internals'
 
@@ -12,6 +14,7 @@ type KitCellInternal<Entity> = {
     | 'entity_link' // using the displayValue of an entity (if it's a primitive, this entity, if it's a relation, the relation entity)
     | 'slot' // full custom
     | 'header' // just string for display, uses the header. e.g. a title of a group
+    | 'component'
 
   class?: string // 'col-span-2' for example
   header?: string // always beter to update the caption of the field or of the class...
@@ -22,6 +25,10 @@ type KitCellInternal<Entity> = {
 
   clipboardable?: boolean // if true, will add a copy button to the field
   clearable?: boolean // for select
+
+  component?: new (...args: any[]) => SvelteComponent
+  props?: any
+  rowToProps?: (row: any) => any
 }
 
 export type KitCell<Entity> = KitCellInternal<Entity> & {
