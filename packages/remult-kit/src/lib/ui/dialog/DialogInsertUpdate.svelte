@@ -18,7 +18,7 @@
   }
 
   const onCreate = (e: CustomEvent) => {
-    dialog.close(toShow.id, { success: true, createRequest: e.detail })
+    dialog.close(toShow.id, { success: true, item: e.detail })
   }
 
   let isLoading = false
