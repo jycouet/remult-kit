@@ -282,11 +282,10 @@
     </div>
   {:else if metaType.subKind === 'text' || metaType.subKind === 'email' || metaType.subKind === 'password' || metaType.subKind === 'dateOnly' || metaType.subKind === 'number'}
     <div class="input input-bordered inline-flex w-full items-center pl-2">
-      <!-- autocomplete={metaType.subKind === 'password' ? 'current-password' : 'off'} -->
       <Input
         {focus}
         {...common(cell.field)}
-        autoComplete="off"
+        autocomplete="off"
         class={tw(
           `join-item placeholder:text-base-content/30 w-full bg-transparent`,
           metaType.subKind === 'number' && 'text-end',
