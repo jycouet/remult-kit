@@ -48,58 +48,6 @@
     return mode
   }
 
-  // const isDisableFieldDynamic = (c: KitCell<T>) => {
-  //   if (c.disabledCondition) {
-  //     const existsKey = c.disabledCondition.exists
-  //     if (existsKey) {
-  //       const isArray = Array.isArray($store.item?.[existsKey])
-  //       if (isArray && $store.item?.[existsKey]?.length) {
-  //         return true
-  //       } else if (!isArray && $store.item?.[existsKey]) {
-  //         return true
-  //       }
-  //     }
-  //   }
-  // }
-
-  // onMount(() => {
-  //   dynamicValues = dynamicItemValues(cells, $store.item)
-  // })
-
-  // let dynamicValues: any = {}
-
-  // const dynamicItemValues = (cells: KitCell<T>[], item: any) => {
-  //   const res: any = {}
-  //   for (const c of cells) {
-  //     if (c.filter?.on) {
-  //       res[c.filter?.on] = item[c.filter?.on]
-  //     }
-  //     if (c.copyForNarrowFind) {
-  //       c.copyForNarrowFind.forEach((key) => {
-  //         res[key] = item[key]
-  //       })
-  //     }
-  //   }
-  //   res.id = item?.id
-  //   return res
-  // }
-
-  // const isDynamicValuesChanged = (cells: KitCell<T>[]) => {
-  //   for (const c of cells) {
-  //     if (c.filter?.on) {
-  //       if (dynamicValues[c.filter?.on] !== $store.item?.[c.filter?.on]) {
-  //         return true
-  //       }
-  //     }
-  //   }
-  // }
-
-  // $: {
-  //   if (isDynamicValuesChanged(cells)) {
-  //     dynamicValues = dynamicItemValues(cells, $store.item)
-  //   }
-  // }
-
   const dispatch = createEventDispatcher()
 
   function dispatchChanged(_data: T | undefined) {

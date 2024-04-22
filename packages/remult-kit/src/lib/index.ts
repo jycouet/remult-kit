@@ -19,6 +19,7 @@ import { default as FieldGroup } from './ui/FieldGroup.svelte'
 import { default as Grid } from './ui/Grid.svelte'
 import { default as GridPaginate } from './ui/GridPaginate.svelte'
 import { default as Icon } from './ui/Icon.svelte'
+import { default as FieldContainer } from './ui/internals/FieldContainer.svelte'
 import { default as SelectMelt } from './ui/internals/select/SelectMelt.svelte'
 import { default as Link } from './ui/link/Link.svelte'
 import { default as LinkPlus } from './ui/link/LinkPlus.svelte'
@@ -44,6 +45,7 @@ export {
   Button,
   Tooltip,
   DialogManagement,
+  FieldContainer,
   SelectMelt,
   Clipboardable,
 }

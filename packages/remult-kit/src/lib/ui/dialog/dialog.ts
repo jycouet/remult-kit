@@ -46,7 +46,7 @@ type ResultClose<entityType = any> = {
   // createRequest?: entityType
 }
 
-type DialogType = 'custom' | 'confirm' | 'confirmDelete' | 'insert' | 'update' | 'view'
+export type DialogType = 'custom' | 'confirm' | 'confirmDelete' | 'insert' | 'update' | 'view'
 export type DialogMetaDataInternal<entityType = any> = DialogMetaData<entityType> & {
   id: number
   type: DialogType

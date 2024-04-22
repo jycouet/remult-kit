@@ -77,6 +77,7 @@
       />
     </div>
 
-    <FormEditAction {toShow} {store} on:delete={onDelete}></FormEditAction>
+    <FormEditAction type={toShow.type} wDelete={toShow.wDelete} {store} on:delete={onDelete}
+    ></FormEditAction>
   </form>
 </DialogPrimitive>

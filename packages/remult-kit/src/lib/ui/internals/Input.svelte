@@ -26,7 +26,9 @@
   }
   function dispatchInput(value: any) {
     if ($$restProps.type === 'date') {
-      dispatch('input', { value: transformDate(value) })
+      if (value) {
+        dispatch('input', { value: transformDate(value) })
+      }
     } else {
       dispatch('input', { value })
     }
@@ -37,6 +39,7 @@
 
   const handleInput = (e: any) => {
     const target: HTMLInputElement = e.target as HTMLInputElement
+
     if ($$restProps.type === 'number') {
       // If we see a `.` or a `,` don't continue and wait for the next input !
       if (e.data === '.' || e.data === ',') {

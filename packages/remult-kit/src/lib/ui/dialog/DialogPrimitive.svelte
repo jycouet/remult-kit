@@ -68,13 +68,15 @@
               use:$close.action
               aria-label="close"
               class="btn btn-circle btn-outline btn-lg
-			h-max min-h-0 w-max border-none"
+              h-max min-h-0 w-max border-none"
             >
               <Icon data={LibIcon_Cross}></Icon>
             </button>
           </div>
         </h2>
 
+        <!-- FIXME: ERMIN? overflow?  -->
+        <!-- <div class="overflow-y-auto"> -->
         <slot />
 
         {#if $$slots.actions}
@@ -82,6 +84,7 @@
             <slot name="actions" />
           </div>
         {/if}
+        <!-- </div> -->
       </div>
     </div>
   {/if}

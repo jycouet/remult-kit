@@ -138,8 +138,14 @@
     $inputValue = $localSelected?.label ?? ''
   }
 
-  // let first = true
-  let filteredItems = items
+  $: filteredItems = items
+
+  $: {
+    if (items.length === 1) {
+      sync.selected(toOption(items[0]))
+    }
+  }
+
   const calcFilteredItems = (touched: boolean, str: string, loadOptionAt: Date) => {
     if (touched) {
       debounce(async () => {
