@@ -112,7 +112,7 @@ export const buildSearchWhere = <Entity>(
           return { [f.key]: search }
         }
 
-        const sSplitted = search.split(" ")
+        const sSplitted = search.split(' ')
         return {
           $and: sSplitted.map((s) => ({ [f.key]: { $contains: s } })),
         }
