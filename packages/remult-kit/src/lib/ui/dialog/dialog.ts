@@ -29,7 +29,7 @@ export type DialogMetaData<entityType = any> = {
 
   repo?: Repository<entityType>
   store?: KitStoreItem<entityType>
-  buildor?: KitCellsInput<entityType>
+  cells?: KitCellsInput<entityType>
   defaults?: Partial<entityType>
   classes?: DialogClasses
 
@@ -38,6 +38,8 @@ export type DialogMetaData<entityType = any> = {
   children?: any
   noThrow?: boolean
   wDelete?: boolean
+
+  textCreate?: string
 }
 
 type ResultClose<entityType = any> = {
@@ -98,34 +100,39 @@ const createDialogManagement = () => {
       }
       return show(detail, 'confirmDelete')
     },
-    // FIXME JYC: refactor this (no need repo? options?)
     form: <entityType>(
       type: 'insert' | 'update' | 'view',
       topic: string,
       repo: Repository<entityType>,
       cells: KitCellsInput<entityType>,
-      defaults: Partial<entityType>,
-      classes?: DialogClasses,
-      noThrow?: boolean,
-      wDelete?: boolean,
-      store?: KitStoreItem<entityType>,
+      options?: {
+        defaults?: Partial<entityType>
+        classes?: DialogClasses
+        noThrow?: boolean
+        wDelete?: boolean
+        textCreate?: string
+      },
+      // store?: KitStoreItem<entityType>,
     ) => {
+      const textCreate = options?.textCreate ?? 'Créer'
       const detail: DialogMetaData<entityType> = {
         detail: {
           caption:
-            (type === 'insert' ? 'Créer ' : type === 'update' ? 'Modifier ' : 'Détail ') + topic,
+            (type === 'insert' ? `${textCreate} ` : type === 'update' ? 'Modifier ' : 'Détail ') +
+            topic,
           icon: {
             data:
               type === 'insert' ? LibIcon_Add : type === 'update' ? LibIcon_Edit : LibIcon_Search,
           },
         },
         repo,
-        store,
-        buildor: cells,
-        defaults,
-        classes,
-        noThrow,
-        wDelete,
+        // store,
+        cells,
+        defaults: options?.defaults,
+        classes: options?.classes,
+        noThrow: options?.noThrow,
+        wDelete: options?.wDelete,
+        textCreate,
       }
       return show(detail, type)
     },
@@ -145,6 +152,7 @@ const createDialogManagement = () => {
         return dialogs.filter((dialog) => dialog.id !== id)
       })
     },
+
     subscribe,
   }
 }

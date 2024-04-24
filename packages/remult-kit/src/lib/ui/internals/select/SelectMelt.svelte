@@ -37,7 +37,7 @@
   export let loadOptionAt = new Date()
   export let value: string | undefined = undefined
   export let clearable = false
-  export let withCreateRequest = false
+  export let createOptionWhenNoResult = false
 
   const dispatch = createEventDispatcher()
 
@@ -243,7 +243,7 @@
           </div>
         </li>
       {:else}
-        {#if withCreateRequest}
+        {#if createOptionWhenNoResult}
           <div class="p-4">
             <Button
               class="w-full"

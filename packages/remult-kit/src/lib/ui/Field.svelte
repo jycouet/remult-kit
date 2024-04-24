@@ -238,7 +238,7 @@
         on:issue={(e) => {
           error = e.detail
         }}
-        withCreateRequest={cell.field?.options.withCreateRequest}
+        createOptionWhenNoResult={cell.field?.options.createOptionWhenNoResult}
         on:createRequest
       />
     {/if}

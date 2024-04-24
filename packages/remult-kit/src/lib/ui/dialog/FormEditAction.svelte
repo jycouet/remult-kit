@@ -11,6 +11,8 @@
   export let type: DialogType
   export let wDelete = false
 
+  export let textCreate = 'Créer'
+
   const dispatch = createEventDispatcher()
 
   function dispatchDelete() {
@@ -52,7 +54,7 @@
 
     <Button class="text-white" {...$$restProps} isLoading={$store.loading}>
       <Icon data={LibIcon_Add} />
-      <p>Créer</p>
+      <p>{textCreate}</p>
     </Button>
   {/if}
 </div>

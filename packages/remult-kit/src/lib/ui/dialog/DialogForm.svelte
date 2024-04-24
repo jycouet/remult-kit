@@ -1,12 +1,14 @@
 <script lang="ts">
-  import { FieldGroup, kitStoreItem } from '../..'
+  
+import { FieldGroup, kitStoreItem } from '../..'
   import { kitCellsBuildor } from '../../kitCellsBuildor'
   import { dialog, type DialogMetaDataInternal } from './dialog'
   import DialogPrimitive from './DialogPrimitive.svelte'
   import FormEditAction from './FormEditAction.svelte'
 
   export let toShow: DialogMetaDataInternal
-  const cells = kitCellsBuildor(toShow.repo!, toShow.buildor!)
+
+  const cells = kitCellsBuildor(toShow.repo!, toShow.cells!)
   const store = toShow.store ?? kitStoreItem(toShow.repo!)
 
   $: {
@@ -26,8 +28,6 @@
     isLoading = true
     try {
       const result = await store.save()
-      // const item = getEntityDisplayValue(toShow.repo!, result)
-
       if (result) {
         dialog.close(toShow.id, { success: true, item: result })
       }
@@ -77,7 +77,12 @@
       />
     </div>
 
-    <FormEditAction type={toShow.type} wDelete={toShow.wDelete} {store} on:delete={onDelete}
+    <FormEditAction
+      type={toShow.type}
+      wDelete={toShow.wDelete}
+      {store}
+      on:delete={onDelete}
+      textCreate={toShow.textCreate}
     ></FormEditAction>
   </form>
 </DialogPrimitive>
