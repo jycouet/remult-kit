@@ -107,15 +107,16 @@ export const buildSearchWhere = <Entity>(
 
   const f: EntityFilter<any>[] = [
     {
-      $or: [
-        ...fields.map((f) => {
-          if (f.inputType === 'number') {
-            return { [f.key]: search }
-          }
+      $or: fields.map((f) => {
+        if (f.inputType === 'number') {
+          return { [f.key]: search }
+        }
 
-          return { [f.key]: { $contains: search } }
-        }),
-      ],
+        const sSplitted = search.split(" ")
+        return {
+          $and: sSplitted.map((s) => ({ [f.key]: { $contains: s } })),
+        }
+      }),
     },
   ]
   return f
