@@ -77,8 +77,9 @@
     <thead>
       <tr>
         {#each cells as b, i}
+          {@const al = align(b.field)}
           <th
-            class="{align(b.field)} 
+            class="{al} 
 									{i === 0 ? 'rounded-tl-lg' : ''}
 									{i === cells.length - 1 && !withEdit && !withDelete ? 'rounded-tr-lg' : ''}"
           >
@@ -87,18 +88,24 @@
             {:else}
               {@const toSort =
                 orderByCols === true || (orderByCols && orderByCols.includes(b.field?.key))}
-              <button
-                class="flex items-center justify-between gap-2"
-                disabled={!toSort}
-                on:click={() => sorting(toSort ?? false, b)}
-              >
+              {#if toSort}
+                <button
+                  class="flex items-center justify-between gap-2"
+                  disabled={!toSort}
+                  on:click={() => sorting(toSort ?? false, b)}
+                >
+                  <p>
+                    {b.header ?? b.field?.caption}
+                  </p>
+                  {#if toSort}
+                    <Icon {...sortingIcon(toSort ?? false, b, orderBy)}></Icon>
+                  {/if}
+                </button>
+              {:else}
                 <p>
                   {b.header ?? b.field?.caption}
                 </p>
-                {#if toSort}
-                  <Icon {...sortingIcon(toSort ?? false, b, orderBy)}></Icon>
-                {/if}
-              </button>
+              {/if}
             {/if}
           </th>
         {/each}
@@ -140,7 +147,7 @@
                     metaType.repoTarget,
                     row[metaType.field.key],
                   )}
-                  <LinkPlus {item} />
+                  <LinkPlus item={{ ...item, href: b.field?.options?.href?.(row) ?? item.href }} />
                 {:else if b.kind === 'field_link'}
                   {@const item = getFieldLinkDisplayValue(metaType.field, row)}
                   <LinkPlus {item} />
