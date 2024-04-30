@@ -12,6 +12,16 @@ import {
 
 import type { Module } from '../api'
 
+@Entity<WithChangeLogs>('change_logs', {
+  saved: async (entity, e) => {
+    await recordSaved(entity, e)
+  },
+  deleted: async (entity, e) => {
+    await recordDeleted(entity, e)
+  },
+})
+export class WithChangeLogs {}
+
 /**
  * in an entity, add these 2 functions:
  * ```ts
@@ -127,8 +137,36 @@ export async function recordSaved<entityType>(
   }
 }
 
-export async function recordDeleted<entityType>(entity: entityType, e: LifecycleEvent<entityType>) {
+export async function recordDeleted<entityType>(
+  entity: entityType,
+  e: LifecycleEvent<entityType>,
+  options?: ColumnDeciderArgs<entityType>,
+) {
+  const changes = [] as change[]
+  const decider = new FieldDecider(entity, options)
+  const changeDate = options?.forceDate || new Date()
+
+  for (const c of decider.fields) {
+    try {
+      const noVal = decider.excludedValues.includes(c)
+      changes.push({
+        key: c.metadata.key,
+        newValue: noVal ? '***' : '---',
+        oldValue: noVal
+          ? '***'
+          : c.originalValue instanceof IdEntity
+            ? c.originalValue.id
+            : c.metadata.options.valueConverter!.toJson!(c.originalValue),
+      })
+    } catch (err) {
+      console.error(c)
+      throw err
+    }
+  }
+
   await remult.repo(ChangeLog).insert({
+    changeDate,
+    changes,
     entity: e.metadata.key,
     entityId: e.metadata.idMetadata.getId(entity),
     userId: remult.user?.id || '',
