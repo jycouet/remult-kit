@@ -111,6 +111,10 @@
     "./feedback": {
       "types": "./esm/feedback/index.d.ts",
       "default": "./esm/feedback/index.js"
+    },
+    "./changeLogs": {
+      "types": "./esm/changeLogs/index.d.ts",
+      "default": "./esm/changeLogs/index.js"
     }
   },
   "files": [
