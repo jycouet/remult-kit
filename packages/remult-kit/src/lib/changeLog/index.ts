@@ -175,8 +175,8 @@ export async function recordDeleted<entityType>(
 }
 
 interface ColumnDeciderArgs<entityType> {
-  excludeColumns?: (e: FieldsRef<entityType>) => FieldRef<any>[]
-  excludeValues?: (e: FieldsRef<entityType>) => FieldRef<any>[]
+  excludeColumns?: (e: FieldsRef<entityType>) => FieldRef<entityType, any>[]
+  excludeValues?: (e: FieldsRef<entityType>) => FieldRef<entityType, any>[]
   forceDate?: Date
   forceNew?: boolean
 }
