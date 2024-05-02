@@ -62,10 +62,10 @@ export const remultApi = remultKit({
         },
 
         oAuths: [
-          github({
-            // authorizationURLOptions: { scopes: ['user:email'] },
-            // log: true,
-          }),
+          // github({
+          //   // authorizationURLOptions: { scopes: ['user:email'] },
+          //   // log: true,
+          // }),
         ],
       },
     }),
