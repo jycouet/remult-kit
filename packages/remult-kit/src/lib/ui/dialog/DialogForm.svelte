@@ -1,6 +1,7 @@
 <script lang="ts">
-  
-import { FieldGroup, kitStoreItem } from '../..'
+  import { onMount } from 'svelte'
+
+  import { FieldGroup, kitStoreItem } from '../..'
   import { kitCellsBuildor } from '../../kitCellsBuildor'
   import { dialog, type DialogMetaDataInternal } from './dialog'
   import DialogPrimitive from './DialogPrimitive.svelte'
