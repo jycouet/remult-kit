@@ -2,7 +2,8 @@ import { Entity, Fields } from 'remult'
 
 import { remultKit } from '$lib/api'
 import { auth, KitAuthUser } from '$lib/auth'
-import { github } from '$lib/auth/providers'
+
+// import { github } from '$lib/auth/providers'
 
 const Role = {
   ADMIN: 'admin',
@@ -63,8 +64,8 @@ export const remultApi = remultKit({
 
         oAuths: [
           // github({
-          //   // authorizationURLOptions: { scopes: ['user:email'] },
-          //   // log: true,
+          //   authorizationURLOptions: { scopes: ['user:email'] },
+          //   log: true,
           // }),
         ],
       },
