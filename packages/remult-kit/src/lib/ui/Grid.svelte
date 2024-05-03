@@ -189,6 +189,7 @@
                 <div class="flex justify-end gap-2">
                   {#if withEdit}
                     <Button
+                      disabled={!store.getRepo().metadata.apiUpdateAllowed()}
                       class="btn btn-square btn-ghost btn-xs"
                       on:click={() => dispatch('edit', row)}
                     >
@@ -197,6 +198,7 @@
                   {/if}
                   {#if withDelete}
                     <Button
+                      disabled={!store.getRepo().metadata.apiDeleteAllowed()}
                       class="btn btn-square btn-ghost btn-xs"
                       on:click={() => dispatch('delete', row)}
                     >
