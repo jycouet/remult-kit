@@ -136,6 +136,7 @@
                         this={b.component}
                         {...b.props}
                         {...b.rowToProps ? b.rowToProps(row) : {}}
+                        on:refresh
                       ></svelte:component>
                     </div>
                   {:else}

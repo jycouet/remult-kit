@@ -1,6 +1,5 @@
 <script lang="ts">
-  
-import { FieldGroup, kitStoreItem } from '../..'
+  import { FieldGroup, kitStoreItem } from '../..'
   import { kitCellsBuildor } from '../../kitCellsBuildor'
   import { dialog, type DialogMetaDataInternal } from './dialog'
   import DialogPrimitive from './DialogPrimitive.svelte'
@@ -82,7 +81,8 @@ import { FieldGroup, kitStoreItem } from '../..'
       wDelete={toShow.wDelete}
       {store}
       on:delete={onDelete}
-      textCreate={toShow.textCreate}
+      textCreate={toShow.topicPrefixText}
     ></FormEditAction>
   </form>
 </DialogPrimitive>
+topicPrefixText
