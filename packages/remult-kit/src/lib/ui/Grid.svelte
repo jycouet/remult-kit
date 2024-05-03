@@ -161,8 +161,12 @@
                   {@const item = getEntityDisplayValueFromField(metaType.field, row)}
                   <LinkPlus {item} />
                 {:else if metaType.kind === 'enum'}
-                  {@const t = metaType.field.displayValue(row)}
-                  <LinkPlus item={row[metaType.field.key]}></LinkPlus>
+                  {#if metaType.subKind === 'single'}
+                    <LinkPlus item={row[metaType.field.key]}></LinkPlus>
+                  {:else if metaType.subKind === 'multi'}
+                    {@const t = metaType.field.displayValue(row)}
+                    {t}
+                  {/if}
                 {:else if metaType.subKind === 'checkbox'}
                   {@const t = metaType.field.displayValue(row)}
                   {t === 'true' ? 'Oui' : 'Non'}

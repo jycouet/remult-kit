@@ -107,7 +107,7 @@ export class KitFields {
   ) {
     return Fields.json(() => Array<entityType>, {
       ...o,
-      inputType: 'selectEnum',
+      inputType: 'selectArrayEnum',
       allowNull: false,
       valueConverter: {
         fromDb: (v: string) => {
@@ -124,6 +124,10 @@ export class KitFields {
         },
         toDb: (v) => {
           return `{${[...new Set(v.map((c) => c.id))].join(',')}}`
+        },
+        displayValue: (v) => {
+          // TODO to transform in enum & item one day
+          return v.map((c) => c.caption).join(', ')
         },
       },
     })

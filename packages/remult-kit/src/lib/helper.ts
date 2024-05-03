@@ -8,7 +8,7 @@ import {
 import { getRelationFieldInfo } from 'remult/internals'
 
 import { suffixWithS } from './formats/strings.js'
-import type { KitBaseItem } from './index.js'
+import { getEnums, type KitBaseItem } from './index.js'
 
 export function isError<T>(object: any): object is ErrorInfo<T> {
   return object
@@ -79,7 +79,7 @@ export type MetaTypeRelation = {
 }
 type MetaTypeEnum = {
   kind: 'enum'
-  subKind: '???'
+  subKind: 'single' | 'multi'
   values: KitBaseItem[]
   field: FieldMetadata
 }
@@ -98,6 +98,7 @@ export const getFieldMetaType = (field?: FieldMetadata): FieldMetaType => {
   }
   // is it a relation?
   const fieldRelationInfo = getRelationFieldInfo(field)
+
   if (fieldRelationInfo) {
     return {
       kind: 'relation',
@@ -116,9 +117,19 @@ export const getFieldMetaType = (field?: FieldMetadata): FieldMetaType => {
   if (field.options?.valueConverter?.values) {
     return {
       kind: 'enum',
-      subKind: '???',
+      subKind: 'single',
       // @ts-ignore
       values: field.options.valueConverter.values as KitBaseItem[],
+      field,
+    }
+  }
+
+  if (field.options?.inputType === 'selectArrayEnum') {
+    return {
+      kind: 'enum',
+      subKind: 'multi',
+      // @ts-ignore
+      values: getEnums(field.target) as KitBaseItem[],
       field,
     }
   }
