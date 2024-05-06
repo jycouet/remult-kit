@@ -187,7 +187,7 @@
   <input
     {...$input}
     use:$input.action
-    class="-ml-10 -mr-5 h-full min-w-0 flex-grow bg-transparent px-10"
+    class="-ml-8 -mr-5 h-full min-w-0 flex-grow bg-transparent px-10"
     {placeholder}
     use:focusNow
   />
