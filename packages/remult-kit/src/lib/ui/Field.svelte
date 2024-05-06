@@ -39,7 +39,6 @@
 
   export let clearable: boolean | undefined = undefined
   export let disabled = false
-  export let loadOptionAt = new Date()
 
   const dispatch = createEventDispatcher()
 
@@ -225,7 +224,6 @@
         {...common(cell.field, true)}
         clearable={clearableComputed}
         loadOptions={async (str) => await getLoadOptions(cellsValues, str)}
-        {loadOptionAt}
         values={value}
         on:selected={(e) => dispatchSelected(e.detail)}
       />
@@ -236,7 +234,6 @@
         {...common(cell.field, true)}
         clearable={clearableComputed}
         loadOptions={async (str) => await getLoadOptions(cellsValues, str)}
-        {loadOptionAt}
         value={value?.id || value}
         on:selected={(e) => dispatchSelected(e.detail)}
         on:issue={(e) => {

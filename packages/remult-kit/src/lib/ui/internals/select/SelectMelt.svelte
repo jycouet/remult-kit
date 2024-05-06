@@ -34,7 +34,6 @@
   export let loadOptions:
     | ((str: string) => Promise<{ items: KitBaseItem[]; totalCount: number }>)
     | undefined = undefined
-  export let loadOptionAt = new Date()
   export let value: string | undefined = undefined
   export let clearable = false
   export let createOptionWhenNoResult = false
@@ -146,7 +145,7 @@
     }
   }
 
-  const calcFilteredItems = (touched: boolean, str: string, loadOptionAt: Date) => {
+  const calcFilteredItems = (touched: boolean, str: string, value: any) => {
     if (touched) {
       debounce(async () => {
         const normalizedInput = str.toLowerCase()
@@ -167,7 +166,7 @@
     }
   }
 
-  $: calcFilteredItems($touchedInput, $inputValue, loadOptionAt)
+  $: calcFilteredItems($touchedInput, $inputValue, value)
 </script>
 
 <div class="input input-bordered flex min-w-0 items-center {disabled && 'opacity-40'}">
