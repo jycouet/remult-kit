@@ -49,13 +49,6 @@
       dialog.close(toShow.id, { success: true, item: $store.item })
     }
   }
-
-  let loadOptionAt = new Date()
-  const changed = (e: any) => {
-    if (store.onChange(e.detail)) {
-      loadOptionAt = new Date()
-    }
-  }
 </script>
 
 <DialogPrimitive
@@ -70,8 +63,6 @@
         {cells}
         {store}
         mode={toShow.type === 'view' ? 'view' : 'edit'}
-        on:changed={changed}
-        {loadOptionAt}
         on:createRequest={onCreate}
       />
     </div>
