@@ -106,7 +106,7 @@ type AuthOptions<
       /**
        * Usually, we send an email to the user to verify his email address.
        */
-      resetPassword?: (url: string) => Promise<void>
+      resetPassword?: (url: string) => void
       /** in secondes @default 5 minutes */
       resetPasswordExpiresIn?: number
 
