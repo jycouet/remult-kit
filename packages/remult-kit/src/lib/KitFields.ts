@@ -7,6 +7,7 @@ import {
 } from 'remult'
 
 import { displayCurrencyWOSuffix } from './formats'
+import { getEnums } from './KitBaseEnum'
 
 // Translate default messages
 // REMULT P3 JYC: I need to set this here the one of my app are not overwriting these...
@@ -129,6 +130,9 @@ export class KitFields {
           // TODO to transform in enum & item one day
           return v.map((c) => c.caption).join(', ')
         },
+        // REMULT P2 Noam: how to do this in an official way?
+        // @ts-ignore
+        values: getEnums(enumClass),
       },
     })
   }

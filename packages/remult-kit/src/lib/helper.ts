@@ -8,7 +8,7 @@ import {
 import { getRelationFieldInfo } from 'remult/internals'
 
 import { suffixWithS } from './formats/strings.js'
-import { getEnums, type KitBaseItem } from './index.js'
+import { type KitBaseItem } from './index.js'
 
 export function isError<T>(object: any): object is ErrorInfo<T> {
   return object
@@ -108,6 +108,18 @@ export const getFieldMetaType = (field?: FieldMetadata): FieldMetaType => {
     }
   }
 
+  if (field.options?.inputType === 'selectArrayEnum') {
+    return {
+      kind: 'enum',
+      subKind: 'multi',
+      // // @ts-ignore
+      // values: getEnums(field.target) as KitBaseItem[],
+      // @ts-ignore
+      values: field.options.valueConverter.values as KitBaseItem[],
+      field,
+    }
+  }
+
   // REMULT P2 JYC: Any idea to know if it's an enum? and extract values?
   // const ttt = getValueList(field)
   // console.log(`ttt`, ttt)
@@ -115,21 +127,13 @@ export const getFieldMetaType = (field?: FieldMetadata): FieldMetaType => {
   // is it an enum?
   // @ts-ignore
   if (field.options?.valueConverter?.values) {
+    // console.log(`field.options.valueConverter.values`, field.options.valueConverter.values)
+
     return {
       kind: 'enum',
       subKind: 'single',
       // @ts-ignore
       values: field.options.valueConverter.values as KitBaseItem[],
-      field,
-    }
-  }
-
-  if (field.options?.inputType === 'selectArrayEnum') {
-    return {
-      kind: 'enum',
-      subKind: 'multi',
-      // @ts-ignore
-      values: getEnums(field.target) as KitBaseItem[],
       field,
     }
   }

@@ -95,14 +95,27 @@
   const sync = createSync({ selected: localSelected })
   $: items &&
     sync.selected(getDefaultValues(values), (v) => {
-      const newIds = (v ?? [])
-        .map((c) => c.value.id)
-        .sort()
-        .join(',')
+      const list = (v ?? []).map((c) => c.value.id)
+
+      // Create a map to count occurrences of each element
+      const countMap: Map<string, number> = new Map()
+
+      list.forEach((item) => {
+        countMap.set(item, (countMap.get(item) || 0) + 1)
+      })
+
+      // Filter the list to include only elements that occur exactly once
+      const uniqueList: string[] = list.filter((item) => countMap.get(item) === 1)
+
+      const newIds = uniqueList.sort().join(',')
       const oldSelectedValues = (values ?? []).sort().join(',')
 
       if (newIds !== oldSelectedValues) {
-        dispatchSelectedValues(v?.map((c) => c.value))
+        dispatchSelectedValues(
+          v === undefined
+            ? undefined
+            : v.filter((c) => uniqueList.includes(c.value.id)).map((c) => c.value),
+        )
       }
     })
 

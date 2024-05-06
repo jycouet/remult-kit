@@ -167,6 +167,10 @@
 
     return { items: arr.map((r) => getEntityDisplayValue(metaTypeObj.repoTarget, r)), totalCount }
   }
+
+  const getMultiValues = (value: any) => {
+    return (value ?? []).map((c: any) => c.id) || value
+  }
 </script>
 
 <FieldContainer
@@ -243,13 +247,15 @@
       />
     {/if}
   {:else if metaType.kind === 'enum'}
-    {#if metaType.field.options.multiSelect}
+    {#if metaType.field.options.multiSelect || metaType.subKind === 'multi'}
       <MultiSelectMelt
         {...common(cell.field, true)}
         clearable={clearableComputed}
         items={metaType.values}
-        values={value}
-        on:selected={(e) => dispatchSelected(e.detail)}
+        values={getMultiValues(value)}
+        on:selected={(e) => {
+          dispatchSelected(e.detail)
+        }}
       />
     {:else if metaType.values.length <= (cell.field?.options.styleRadioUntil ?? 3) && !clearableComputed}
       <SelectRadio

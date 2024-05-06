@@ -155,7 +155,6 @@ declare module 'remult' {
     findOptionsLimit?: number
     createOptionWhenNoResult?: boolean
 
-    // Currently only for filtering.
     multiSelect?: boolean
 
     skipForDefaultField?: boolean
