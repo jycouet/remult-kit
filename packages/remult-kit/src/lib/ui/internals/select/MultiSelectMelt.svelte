@@ -188,7 +188,7 @@
   <input
     {...$input}
     use:$input.action
-    class="-mx-8 h-full min-w-0 flex-grow bg-transparent px-10"
+    class="-ml-8 -mr-5 h-full min-w-0 flex-grow bg-transparent px-10"
     {placeholder}
   />
   <div class="pointer-events-none relative right-0 flex gap-2">
@@ -197,11 +197,11 @@
         <Icon data={LibIcon_Cross}></Icon>
       </button>
     {/if}
-    {#if $open}
+    <!-- {#if $open}
       <Icon data={LibIcon_ChevronUp}></Icon>
     {:else}
       <Icon data={LibIcon_ChevronDown}></Icon>
-    {/if}
+    {/if} -->
   </div>
 </div>
 
