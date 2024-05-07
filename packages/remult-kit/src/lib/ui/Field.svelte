@@ -299,6 +299,7 @@
         on:input={(e) => {
           // @ts-ignore
           value = fromInput(cell.field, e.detail.value)
+          dispatchSelected(value)
         }}
         {...$$restProps}
       />
