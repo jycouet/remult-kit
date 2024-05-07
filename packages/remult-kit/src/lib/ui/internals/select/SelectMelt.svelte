@@ -6,8 +6,6 @@
   import {
     Button,
     LibIcon_Check,
-    // LibIcon_ChevronDown,
-    // LibIcon_ChevronUp,
     LibIcon_Cross,
     LibIcon_Search,
     tw,
