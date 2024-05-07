@@ -133,12 +133,14 @@ export const buildWhere = <Entity>(
     and.push(...buildSearchWhere(fields_search, obj.search))
   }
   for (const field of fields_filter) {
-    // const rfi = getRelationInfo(field)
     const rfi = getRelationFieldInfo(field)
 
     // if there is a value
     if (obj[field.key]) {
-      if (field.inputType === 'selectEnum') {
+      if (field.inputType === 'checkbox') {
+        // @ts-ignore
+        and.push({ [field.key]: obj[field.key] })
+      } else if (field.inputType === 'selectEnum') {
         // @ts-ignore
         const theEnum = getEnum(field, obj[field.key])
         // Take the where of the enum if it exists, or it's using this selection as a filter

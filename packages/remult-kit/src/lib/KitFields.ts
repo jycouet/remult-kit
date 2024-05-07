@@ -124,7 +124,8 @@ export class KitFields {
           return keys
         },
         toDb: (v) => {
-          return `{${[...new Set(v.map((c) => c.id))].join(',')}}`
+          const arr = Array.isArray(v) ? v : [v]
+          return `{${[...new Set((arr ?? []).map((c) => c.id))].join(',')}}`
         },
         displayValue: (v) => {
           // TODO to transform in enum & item one day
