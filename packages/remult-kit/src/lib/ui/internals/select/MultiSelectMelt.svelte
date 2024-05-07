@@ -5,8 +5,6 @@
 
   import {
     LibIcon_Check,
-    LibIcon_ChevronDown,
-    LibIcon_ChevronUp,
     LibIcon_Cross,
     LibIcon_MultiCheck,
     LibIcon_Search,
@@ -46,13 +44,15 @@
 
   const getDefaultValues = (_selectedValue: string[] | undefined) => {
     if (!items) {
-      return
+      return []
     }
 
     const f = items.filter((c) => (_selectedValue ?? []).includes(String(c.id)))
     if (f) {
       return f.map((c) => toOption(c))
     }
+
+    return []
   }
 
   const toOption = (
