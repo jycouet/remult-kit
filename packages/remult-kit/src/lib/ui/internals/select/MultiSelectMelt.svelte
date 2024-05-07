@@ -149,20 +149,23 @@
 
   let filteredItems = items
   const calcFilteredItems = (touched: boolean, str: string, values: any) => {
-    if (touched) {
+    if (touched && !str.endsWith(' éléments')) {
       debounce(async () => {
         const normalizedInput = str.toLowerCase()
 
-        if (loadOptions) {
-          const lo = await loadOptions(normalizedInput)
-          items = lo.items
-          totalCount = lo.totalCount
-          filteredItems = items
-        } else {
-          filteredItems = items.filter((item) => {
-            return item.caption?.toLowerCase().includes(normalizedInput)
-          })
-        }
+        // TODO one day
+        // In a Multi select we can't filter to the server.
+        // If we do I don't knwo what to set to $inputValue. and and list gets shorter... So what do we do about items that are selected but not in the list anymore (because of the filter) ?
+        // if (loadOptions) {
+        //   const lo = await loadOptions(normalizedInput)
+        //   items = lo.items
+        //   totalCount = lo.totalCount
+        //   filteredItems = items
+        // } else {
+        filteredItems = items.filter((item) => {
+          return item.caption?.toLowerCase().includes(normalizedInput)
+        })
+        // }
       })
     } else {
       filteredItems = items
@@ -246,5 +249,15 @@
         <li class="relative cursor-pointer rounded-md py-1 pl-8 pr-4">Aucun résultat</li>
       {/each}
     </div>
+    {#if totalCount}
+      <div class="bg-base-300 z-50 text-center text-xs">
+        {#if items.length < totalCount}
+          ({items.length} / {totalCount})
+        {:else}
+          <!-- yes, items.length can be bigger if the selected item is not in the limit -->
+          ({items.length})
+        {/if}
+      </div>
+    {/if}
   </ul>
 {/if}
