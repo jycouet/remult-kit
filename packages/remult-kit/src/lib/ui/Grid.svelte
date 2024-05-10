@@ -17,12 +17,19 @@
   import GridLoading from './GridLoading.svelte'
   import Icon from './Icon.svelte'
   import { align, getAligns } from './index.js'
-  import { LibIcon_Settings, LibIcon_Sort, LibIcon_SortAsc, LibIcon_SortDesc } from './LibIcon.js'
+  import {
+    LibIcon_Add,
+    LibIcon_Settings,
+    LibIcon_Sort,
+    LibIcon_SortAsc,
+    LibIcon_SortDesc,
+  } from './LibIcon.js'
   import LinkPlus from './link/LinkPlus.svelte'
 
   export let cells: KitCell<T>[]
   export let store: KitStoreList<T>
 
+  export let withAdd = false
   export let withEdit = false
   export let withDelete = false
 
@@ -110,9 +117,19 @@
           </th>
         {/each}
 
-        {#if withEdit || withDelete}
+        {#if withEdit || withDelete || withAdd}
           <th class="flex justify-end rounded-tr-lg">
-            <Icon data={LibIcon_Settings}></Icon>
+            {#if withAdd}
+              <Button
+                disabled={!store.getRepo().metadata.apiUpdateAllowed()}
+                class="btn btn-square btn-ghost btn-xs"
+                on:click={() => dispatch('add', {})}
+              >
+                <Icon data={LibIcon_Add} />
+              </Button>
+            {:else}
+              <Icon data={LibIcon_Settings}></Icon>
+            {/if}
           </th>
         {/if}
       </tr>
