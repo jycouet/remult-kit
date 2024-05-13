@@ -187,6 +187,8 @@
         return cell.field?.options.suffix
       }
     }
+
+    return ''
   }
 </script>
 
