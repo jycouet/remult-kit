@@ -1,6 +1,6 @@
 {
   "name": "remult-kit",
-  "version": "0.26.10-exp.0",
+  "version": "0.26.11-exp.0",
   "type": "module",
   "description": "An opinionated Remult setup !",
   "repository": {
