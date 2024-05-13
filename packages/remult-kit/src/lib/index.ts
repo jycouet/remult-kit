@@ -137,6 +137,8 @@ declare module 'remult' {
 
     suffix?: string
     suffixWithS?: boolean
+    suffixEdit?: string
+    suffixEditWithS?: boolean
 
     styleRadioUntil?: number
 

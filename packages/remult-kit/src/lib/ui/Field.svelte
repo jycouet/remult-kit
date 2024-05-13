@@ -2,9 +2,9 @@
   import { createEventDispatcher } from 'svelte'
   import type { HTMLInputAttributes } from 'svelte/elements'
 
-  import { type FieldMetadata, type FindOptions } from 'remult'
+  import { Fields, type FieldMetadata, type FindOptions } from 'remult'
 
-  import { type KitBaseItem, type KitCell } from '../'
+  import { Field, type KitBaseItem, type KitCell } from '../'
   import { suffixWithS } from '../formats/strings'
   import {
     displayWithDefaultAndSuffix,
@@ -170,6 +170,24 @@
   const getMultiValues = (value: any) => {
     return (value ?? []).map((c: any) => c.id) || value
   }
+
+  const calcSuffix = (value: any) => {
+    if (cell.field?.options.suffixEdit) {
+      if (cell.field?.options.suffixEditWithS) {
+        return suffixWithS(value, cell.field?.options.suffixEdit)
+      } else {
+        return cell.field?.options.suffixEdit
+      }
+    }
+
+    if (cell.field?.options.suffix) {
+      if (cell.field?.options.suffixWithS) {
+        return suffixWithS(value, cell.field?.options.suffix)
+      } else {
+        return cell.field?.options.suffix
+      }
+    }
+  }
 </script>
 
 <FieldContainer
@@ -303,13 +321,7 @@
         }}
         {...$$restProps}
       />
-      {#if cell.field?.options.suffix}
-        {#if cell.field?.options.suffixWithS}
-          {suffixWithS(value, cell.field?.options.suffix)}
-        {:else}
-          {cell.field?.options.suffix}
-        {/if}
-      {/if}
+      {calcSuffix(value)}
     </div>
   {:else if metaType.subKind === 'textarea'}
     <Textarea
