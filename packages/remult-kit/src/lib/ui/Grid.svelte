@@ -84,7 +84,7 @@
     <thead>
       <tr>
         {#each cells as b, i}
-          {@const al = align(b.field)}
+          {@const al = align(b.field, b.kind === 'slot')}
           <th
             class="{al} 
 									{i === 0 ? 'rounded-tl-lg' : ''}
@@ -101,17 +101,13 @@
                   disabled={!toSort}
                   on:click={() => sorting(toSort ?? false, b)}
                 >
-                  <p>
-                    {b.header ?? b.field?.caption}
-                  </p>
+                  {b.header ?? b.field?.caption}
                   {#if toSort}
                     <Icon {...sortingIcon(toSort ?? false, b, orderBy)}></Icon>
                   {/if}
                 </button>
               {:else}
-                <p>
-                  {b.header ?? b.field?.caption}
-                </p>
+                {b.header ?? b.field?.caption}
               {/if}
             {/if}
           </th>
@@ -143,7 +139,7 @@
           <tr on:click={() => dispatch('rowclick', row)} class="hover:bg-base-content/20">
             {#each cells as b}
               {@const metaType = getFieldMetaType(b.field)}
-              <td class={align(b.field)}>
+              <td class={align(b.field, b.kind === 'slot')}>
                 {#if metaType.kind === 'slot' || b.kind === 'slot'}
                   <slot name="cell" {row} field={b.field} />
                 {:else if b.kind === 'component'}
