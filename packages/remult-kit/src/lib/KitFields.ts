@@ -6,7 +6,7 @@ import {
   type StringFieldOptions,
 } from 'remult'
 
-import { displayCurrencyWOSuffix } from './formats'
+import { displayCurrency } from './formats'
 import { getEnums } from './KitBaseEnum'
 
 // Translate default messages
@@ -65,7 +65,7 @@ export class KitFields {
     o?: FieldOptions<entityType> & FieldOptions<entityType>,
   ) {
     // let's return the field
-    return Fields.number({ ...o, step: '0.01', suffix: '€', displayValue: displayCurrencyWOSuffix })
+    return Fields.number({ ...o, step: '0.01', suffix: '€', displayValue: displayCurrency })
   }
 
   static dateOnly<entityType = any>(o?: FieldOptions<entityType, Date>) {
