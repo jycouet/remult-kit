@@ -16,8 +16,10 @@ export const dateISOToPlainDate = (iso: string) => {
 export const offsetedToPlainDate = (dt: Date) => {
   const userTimezoneOffset = dt.getTimezoneOffset() * 60000
   const adjustedDate = new Date(dt.getTime() - userTimezoneOffset)
-  const ti = Temporal.Instant.from(adjustedDate.toISOString())
-  return ti.toZonedDateTimeISO('UTC').toPlainDate()
+  return adjustedDate.toISOString().split('T')[0]
+  // Huge performance issue! (check: filterAndRowSpan)
+  // const ti = Temporal.Instant.from(adjustedDate.toISOString())
+  // return ti.toZonedDateTimeISO('UTC').toPlainDate()
 }
 
 export type KitPlainDateRange = {

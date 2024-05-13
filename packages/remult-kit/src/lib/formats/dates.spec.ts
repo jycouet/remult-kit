@@ -24,12 +24,12 @@ describe('dateISOToPlainDate', () => {
 describe('offsetedToPlainDate', () => {
   it('a 22h', () => {
     const result = offsetedToPlainDate(new Date('2024-04-01T22:00:00.000Z'))
-    expect(result.toJSON()).toEqual('2024-04-02')
+    expect(result).toEqual('2024-04-02')
   })
 
   it('a 23h', () => {
     const result = offsetedToPlainDate(new Date('2024-03-04T23:00:00.000Z'))
-    expect(result.toJSON()).toEqual('2024-03-05')
+    expect(result).toEqual('2024-03-05')
   })
 })
 
