@@ -47,8 +47,8 @@
     <div
       class={tw(
         `border-base-content/60
-        bg-base-100
-			   relative z-40 max-h-[90vh] overflow-auto rounded-xl
+         bg-base-100
+			   relative z-40 max-h-[90vh] overflow-visible rounded-xl
 			   border p-6
          shadow-lg`,
         classes.root,
