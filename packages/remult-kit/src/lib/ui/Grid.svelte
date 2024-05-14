@@ -141,7 +141,7 @@
               {@const metaType = getFieldMetaType(b.field)}
               <td class={align(b.field, b.kind === 'slot')}>
                 {#if metaType.kind === 'slot' || b.kind === 'slot'}
-                  <slot name="cell" {row} field={b.field} />
+                  <slot name="cell" {row} field={b.field} cell={b} />
                 {:else if b.kind === 'component'}
                   {#if b.component}
                     <div class={b.class}>
