@@ -35,6 +35,7 @@
   export let value: string | undefined = undefined
   export let clearable = false
   export let createOptionWhenNoResult = false
+  export let default_select_if_one_item = false
 
   const dispatch = createEventDispatcher()
 
@@ -138,7 +139,7 @@
   $: filteredItems = items
 
   $: {
-    if (items.length === 1) {
+    if (items.length === 1 && default_select_if_one_item) {
       sync.selected(toOption(items[0]))
     }
   }
