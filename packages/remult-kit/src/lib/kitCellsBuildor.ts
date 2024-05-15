@@ -123,7 +123,7 @@ export const buildSearchWhere = <Entity>(
 }
 
 export const buildWhere = <Entity>(
-  defaultWhere: EntityFilter<Entity>,
+  defaultWhere: EntityFilter<Entity> | undefined,
   fields_filter: FieldMetadata<any, Entity>[],
   fields_search: FieldMetadata<any, Entity>[],
   obj: Record<string, string>,
