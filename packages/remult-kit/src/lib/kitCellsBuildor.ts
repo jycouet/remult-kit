@@ -123,11 +123,16 @@ export const buildSearchWhere = <Entity>(
 }
 
 export const buildWhere = <Entity>(
+  defaultWhere: EntityFilter<Entity>,
   fields_filter: FieldMetadata<any, Entity>[],
   fields_search: FieldMetadata<any, Entity>[],
   obj: Record<string, string>,
 ): EntityFilter<Entity> => {
   const and: EntityFilter<Entity>[] = []
+
+  if (defaultWhere) {
+    and.push(defaultWhere)
+  }
 
   if (obj.search) {
     and.push(...buildSearchWhere(fields_search, obj.search))
