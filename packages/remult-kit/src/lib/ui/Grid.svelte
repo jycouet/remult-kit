@@ -41,6 +41,8 @@
   export let orderBy: EntityOrderBy<T> | undefined = undefined
   export let orderByCols: (keyof T)[] | true | undefined = undefined
 
+  export let dicoNoResult = 'Aucun résultat !'
+
   const dispatch = createEventDispatcher()
 
   const sorting = (toSort: boolean, b: KitCell<T>) => {
@@ -227,11 +229,16 @@
             {/if}
           </tr>
         {:else}
-          <tr>
-            <td colspan={getAligns(cells, withEdit || withDelete).length} class="text-center py-12">
-              Aucun résultat !
-            </td>
-          </tr>
+          {#if dicoNoResult}
+            <tr>
+              <td
+                colspan={getAligns(cells, withEdit || withDelete).length}
+                class="text-center py-12"
+              >
+                {dicoNoResult}
+              </td>
+            </tr>
+          {/if}
         {/each}
         <slot name="extra" />
       {/if}
