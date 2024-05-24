@@ -14,6 +14,9 @@ import {
 } from '../../'
 
 export type DialogClasses = {
+  /**
+   * for example `overflow-auto` to have a scrollbar in the dialog
+   */
   root?: string
   formGrid?: FormGrid
 }
