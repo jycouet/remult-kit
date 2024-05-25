@@ -70,7 +70,20 @@ export class KitFields {
       step: '0.01',
       suffix: undefined,
       suffixEdit: '€',
+      inputType: 'number',
       displayValue: displayCurrency,
+      valueConverter: {
+        toInput(val, inputType) {
+          const valStr = String(val)
+          if (valStr.includes('.')) {
+            const [left, right] = valStr.split('.')
+            // Take only the 2 first digits after the dot
+            return `${left}.${right.slice(0, 2)}`
+          }
+
+          return valStr
+        },
+      },
     })
   }
 
