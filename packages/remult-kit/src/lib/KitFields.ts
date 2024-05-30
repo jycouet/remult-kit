@@ -72,6 +72,7 @@ export class KitFields {
       suffixEdit: '€',
       inputType: 'number',
       displayValue: displayCurrency,
+      // REMULT P2: all default valueConverter are removed if I set one?
       valueConverter: {
         toInput(val, inputType) {
           const valStr = String(val)
@@ -80,8 +81,13 @@ export class KitFields {
             // Take only the 2 first digits after the dot
             return `${left}.${right.slice(0, 2)}`
           }
-
           return valStr
+        },
+        fromDb(val) {
+          if (val) {
+            return parseFloat(val.toString())
+          }
+          return val
         },
       },
     })
