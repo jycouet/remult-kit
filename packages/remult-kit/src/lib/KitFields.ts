@@ -163,6 +163,35 @@ export class KitFields {
     })
   }
 
+  static arrayEnumToGql<enumType = any, entityType = any>(
+    enumClass: enumType,
+    o?: FieldOptions<entityType, any[]>,
+  ) {
+    return Fields.json(() => Array<entityType>, {
+      ...o,
+      inputType: 'selectArrayEnum',
+      allowNull: false,
+      valueConverter: {
+        fromDb: (v: string) => {
+          if (!v) return []
+          const keys = v.slice(1, -1).split(',')
+          return keys
+        },
+        toDb: (v) => {
+          const arr = Array.isArray(v) ? v : [v]
+          return `{${[...new Set((arr ?? []).map((c) => c.id))].join(',')}}`
+        },
+        displayValue: (v) => {
+          // TODO to transform in enum & item one day
+          return v.map((c) => c.caption).join(', ')
+        },
+        // REMULT P2 Noam: how to do this in an official way?
+        // @ts-ignore
+        values: getEnums(enumClass),
+      },
+    })
+  }
+
   static arrayValueList<enumType = any, entityType = any>(
     enumClass: enumType,
     o?: FieldOptions<entityType, any[]>,
