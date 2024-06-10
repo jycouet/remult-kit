@@ -215,7 +215,8 @@
         {@const item = getEntityDisplayValue(metaType.repoTarget, value)}
         <div class={tw('flex items-center gap-4', 'h-12', 'pl-2')}>
           {#if item && item?.icon}
-            <Icon {...item.icon} />
+            {@const { caption, ...rest } = item?.icon}
+            <Icon {...rest} />
           {/if}
           <span>{cell?.header ?? item?.caption ?? '-'}</span>
         </div>
@@ -223,7 +224,8 @@
         {@const v = displayWithDefaultAndSuffix(cell.field, value)}
         <div class="ml-2 flex h-12 items-center gap-4">
           {#if value?.icon}
-            <Icon {...value?.icon} />
+            {@const { caption, ...rest } = value?.icon}
+            <Icon {...rest} />
           {/if}
           <Clipboardable value={v}>{v}</Clipboardable>
         </div>
