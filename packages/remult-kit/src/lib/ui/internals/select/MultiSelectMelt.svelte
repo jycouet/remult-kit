@@ -241,7 +241,7 @@
               size={item.icon.size}
             ></Icon>
           {/if}
-          <div class="pl-2">
+          <div class="pl-2 {item.class}">
             <span class="font-medium">{item.caption}</span>
           </div>
         </li>
