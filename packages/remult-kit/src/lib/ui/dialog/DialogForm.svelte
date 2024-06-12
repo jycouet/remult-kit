@@ -7,8 +7,8 @@
 
   export let toShow: DialogMetaDataInternal
 
-  const cells = kitCellsBuildor(toShow.repo!, toShow.cells!)
-  const store = toShow.store ?? kitStoreItem(toShow.repo!)
+  $: cells = kitCellsBuildor(toShow.repo!, toShow.cells!)
+  $: store = toShow.store ?? kitStoreItem(toShow.repo!)
 
   $: {
     if (toShow.type === 'update' || toShow.type === 'view') {
