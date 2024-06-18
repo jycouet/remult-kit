@@ -7,7 +7,7 @@ export type MailOptions = {
   from?: Mail.Options['from']
   transport?: Parameters<typeof nodemailer.createTransport>[0]
   apiUrl?: Parameters<typeof nodemailer.createTestAccount>[0]
-  info?: Parameters<typeof nodemailer.getTestMessageUrl>[0]
+  skipPreviewURL?: boolean
 }
 
 let transporter: ReturnType<typeof nodemailer.createTransport>
@@ -18,15 +18,18 @@ export const mailInit: (o?: MailOptions) => void = (o) => {
   if (o?.transport) {
     transporter = nodemailer.createTransport(o?.transport)
   } else {
-    // TODO Change defaults ? (it's nodemailer example!)
-    transporter = nodemailer.createTransport({
-      host: 'smtp.ethereal.email',
-      port: 587,
-      secure: false, // Use `true` for port 465, `false` for all other ports
-      auth: {
-        user: 'maddison53@ethereal.email',
-        pass: 'jn7jnAPss4f63QBp6D',
-      },
+    nodemailer.createTestAccount(options?.apiUrl ?? '', (err, account) => {
+      options = { ...options, from: account.user }
+
+      transporter = nodemailer.createTransport({
+        host: account.smtp.host,
+        port: account.smtp.port,
+        secure: account.smtp.secure,
+        auth: {
+          user: account.user,
+          pass: account.pass,
+        },
+      })
     })
   }
 }
@@ -42,6 +45,12 @@ export const sendMail: (
       ...mailOptions,
       ...{ from: mailOptions.from ?? options?.from },
     })
+
+    if (!options?.skipPreviewURL) {
+      // @ts-ignore
+      log.info(`Topic: ${topic}, Preview URL: ${nodemailer.getTestMessageUrl(info)}`)
+    } else {
+    }
     log.success(`Topic: ${topic}, Sent to ${mailOptions.to}`)
     return info
   } catch (error) {
