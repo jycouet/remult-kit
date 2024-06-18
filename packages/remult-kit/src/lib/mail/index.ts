@@ -33,15 +33,18 @@ export const mailInit: (o?: MailOptions) => void = (o) => {
 
 const log = new Log('remult-kit | mail')
 
-export const sendMail: typeof transporter.sendMail = async (mailOptions) => {
+export const sendMail: (
+  topic: string,
+  mailOptions: Parameters<typeof transporter.sendMail>[0],
+) => ReturnType<typeof transporter.sendMail> = async (topic, mailOptions) => {
   try {
     const info = await transporter.sendMail({
       ...mailOptions,
       ...{ from: mailOptions.from ?? options?.from },
     })
-    log.success(`Sent to ${mailOptions.to}`)
+    log.success(`Topic: ${topic}, Sent to ${mailOptions.to}`)
     return info
   } catch (error) {
-    log.error(error)
+    log.error(`Topic: ${topic}, Error`, error)
   }
 }
