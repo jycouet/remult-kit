@@ -7,6 +7,7 @@ import { BackendMethod, remult } from 'remult'
 import { yellow } from '@kitql/helpers'
 
 import { AUTH_OPTIONS, getSafeOptions, logAuth, lucia, type AuthorizationURLOptions } from '.'
+import { sendMail } from '../mail'
 import { AuthProvider } from './Entities.js'
 import { createSession } from './helper'
 import { mergeRoles } from './RoleController'
@@ -195,13 +196,18 @@ export class AuthController {
       )
 
       await remult.repo(oSafe.Account).save(authAccount)
+      const url = `${remult.context.url.origin}/auth/resetPassword?token=${token}`
       if (AUTH_OPTIONS.providers?.password?.resetPassword) {
-        const url = `${remult.context.url.origin}/auth/resetPassword?token=${token}`
         await AUTH_OPTIONS.providers?.password.resetPassword(url)
         logAuth.success(url)
         return 'Mail sent !'
       } else {
-        logAuth.error(`You need to provide a password.resetPassword hook in the auth options!`)
+        await sendMail('forgotPassword', {
+          to: email,
+          subject: 'Reset your password',
+          text: `You can reset your password here: ${url}`,
+          html: `You can reset your password <a href="${url}">here</a>`,
+        })
       }
     } else {
       throw new Error("Une erreur est survenue, contacte l'administrateur!")

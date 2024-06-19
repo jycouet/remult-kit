@@ -11,14 +11,45 @@ export const jobs: Record<
   { job: CronJob<null, unknown> | null; concurrentInProgress: number }
 > = {}
 
+/**
+ * Link to a nice Cheatsheet TODO
+ */
 export const cronTime = {
   /**
    * Every morning is actually at 4 am and 7 minutes. (because I like this number!)
    */
   every_morning: '0 7 4 * * *',
+
+  /**
+   * Every second
+   */
+  every_second: '* * * * * *',
+
+  /**
+   * Every minute
+   */
+  every_minute: '0 * * * * *',
 }
 
 /**
+ * usage:
+ *
+ * ```ts
+ * import { cron, cronTime } from 'remult-kit/cron'
+ *
+ * export const api = remultKit({
+ *   modules: [
+ *     cron([{
+ *       topic: 'first_cron',
+ *       cronTime: cronTime.every_second,
+ *       onTick: () => { console.log('hello') },
+ *       start: !dev, // Start in production
+ *       // runOnInit: dev, //nice in dev environement
+ *     }])
+ *   ]
+ * })
+ * ```
+ *
  * using [cron](https://www.npmjs.com/package/cron) library under the hood
  */
 export const cron: (
