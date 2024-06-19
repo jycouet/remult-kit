@@ -49,7 +49,6 @@ export const sendMail: (
     if (!options?.skipPreviewURL) {
       // @ts-ignore
       log.info(`Topic: ${topic}, Preview URL: ${nodemailer.getTestMessageUrl(info)}`)
-    } else {
     }
     log.success(`Topic: ${topic}, Sent to ${mailOptions.to}`)
     return info
