@@ -44,7 +44,7 @@ export const cronTime = {
  *       cronTime: cronTime.every_second,
  *       onTick: () => { console.log('hello') },
  *       start: !dev, // Start in production
- *       // runOnInit: dev, //nice in dev environement
+ *       // runOnInit: dev, // nice in dev environement
  *     }])
  *   ]
  * })
