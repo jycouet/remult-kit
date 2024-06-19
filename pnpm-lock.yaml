@@ -58,8 +58,8 @@ importers:
         specifier: ^7.4.47
         version: 7.4.47
       '@melt-ui/svelte':
-        specifier: ^0.75.3
-        version: 0.75.3(svelte@4.2.7)
+        specifier: ^0.81.0
+        version: 0.81.0(svelte@4.2.7)
       '@types/nodemailer':
         specifier: ^6.4.15
         version: 6.4.15
@@ -1379,10 +1379,10 @@ packages:
   '@mdi/js@7.4.47':
     resolution: {integrity: sha512-KPnNOtm5i2pMabqZxpUz7iQf+mfrYZyKCZ8QNz85czgEt7cuHcGorWfdzUMWYA0SD+a6Hn4FmJ+YhzzzjkTZrQ==}
 
-  '@melt-ui/svelte@0.75.3':
-    resolution: {integrity: sha512-EA2IKn7w9qtzO/M7VEENpphQ9A4az+QDMQbA8SJLuKyu+S8NWliln5y9vvmnx9dZF8GtKtUKuxpwRNyPg5LAOg==}
+  '@melt-ui/svelte@0.81.0':
+    resolution: {integrity: sha512-QWVy+kVp8CZ+ph4W780PI6rPBa3MJIUFH/E1EHYfI05QloOGVBXtrI9MlzQSIrGYtGgSGQoTbh8cPO+YtkNAwg==}
     peerDependencies:
-      svelte: '>=3 <5'
+      svelte: ^3.0.0 || ^4.0.0 || ^5.0.0-next.118
 
   '@noble/hashes@1.4.0':
     resolution: {integrity: sha512-V1JJ1WTRUqHHrOSh597hURcMqVKVGL/ea3kv0gSnEdsEZ0/+VyPghM1lMNGc00z7CIQorSvbKpuJkxvuHbvdbg==}
@@ -7721,7 +7721,7 @@ snapshots:
 
   '@mdi/js@7.4.47': {}
 
-  '@melt-ui/svelte@0.75.3(svelte@4.2.7)':
+  '@melt-ui/svelte@0.81.0(svelte@4.2.7)':
     dependencies:
       '@floating-ui/core': 1.6.1
       '@floating-ui/dom': 1.6.4
