@@ -1,13 +1,12 @@
 import nodemailer from 'nodemailer'
 import type Mail from 'nodemailer/lib/mailer'
 
-import { Log } from '@kitql/helpers'
+import { Log, magenta } from '@kitql/helpers'
 
 export type MailOptions = {
   from?: Mail.Options['from']
   transport?: Parameters<typeof nodemailer.createTransport>[0]
   apiUrl?: Parameters<typeof nodemailer.createTestAccount>[0]
-  skipPreviewURL?: boolean
 }
 
 let transporter: ReturnType<typeof nodemailer.createTransport>
@@ -46,13 +45,14 @@ export const sendMail: (
       ...{ from: mailOptions.from ?? options?.from },
     })
 
-    if (!options?.skipPreviewURL) {
+    if (!options?.transport) {
       // @ts-ignore
-      log.info(`Topic: ${topic}, Preview URL: ${nodemailer.getTestMessageUrl(info)}`)
+      log.info(`${magenta(`[${topic}]`)} - Preview URL: ${nodemailer.getTestMessageUrl(info)}`)
+    } else {
+      log.success(`${magenta(`[${topic}]`)} - Sent to ${mailOptions.to}`)
     }
-    log.success(`Topic: ${topic}, Sent to ${mailOptions.to}`)
     return info
   } catch (error) {
-    log.error(`Topic: ${topic}, Error`, error)
+    log.error(`${magenta(`[${topic}]`)} - Error`, error)
   }
 }

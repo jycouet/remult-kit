@@ -67,10 +67,7 @@ export const api = remultKit({
     from: {
       name: 'My Cool App',
       address: 'noreply@coolApp.io'
-    },
-
-    // Maybe you don't need the preview url, so you can skip the log
-    skipPreviewURL: true
+    }
   }
 })
 ```
