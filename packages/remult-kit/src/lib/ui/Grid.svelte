@@ -119,7 +119,8 @@
           <th class="flex justify-end rounded-tr-lg">
             {#if withAdd}
               <Button
-                disabled={!store.getRepo().metadata.apiUpdateAllowed()}
+                permission={store.getRepo().metadata.options.permissionApiInsert}
+                disabled={!store.getRepo().metadata.apiInsertAllowed()}
                 class="btn btn-square btn-ghost btn-xs"
                 on:click={() => dispatch('add', {})}
               >
@@ -179,8 +180,12 @@
                   {#if metaType.subKind === 'single'}
                     <LinkPlus item={row[metaType.field.key]}></LinkPlus>
                   {:else if metaType.subKind === 'multi'}
-                    {@const t = metaType.field.displayValue(row)}
-                    {t}
+                    <!-- {@const t = metaType.field.displayValue(row)} -->
+                    {#each row[metaType.field.key] as enumVal}
+                      <div>
+                        {enumVal.caption}
+                      </div>
+                    {/each}
                   {/if}
                 {:else if metaType.subKind === 'checkbox'}
                   {@const t = metaType.field.displayValue(row)}
@@ -208,6 +213,7 @@
                 <div class="flex justify-end gap-2">
                   {#if withEdit}
                     <Button
+                      permission={store.getRepo().metadata.options.permissionApiUpdate}
                       disabled={!store.getRepo().metadata.apiUpdateAllowed()}
                       class="btn btn-square btn-ghost btn-xs"
                       on:click={() => dispatch('edit', row)}
@@ -217,6 +223,7 @@
                   {/if}
                   {#if withDelete}
                     <Button
+                      permission={store.getRepo().metadata.options.permissionApiDelete}
                       disabled={!store.getRepo().metadata.apiDeleteAllowed()}
                       class="btn btn-square btn-ghost btn-xs"
                       on:click={() => dispatch('delete', row)}
