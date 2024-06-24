@@ -69,7 +69,7 @@ export { kitStoreItem }
 export { kitStoreList }
 
 export type KitCellsInput<entityType> = KitCellsInputForExport<entityType>
-export type { KitCell } from './kitCellsBuildor.js'
+export type { KitCell, VisibilityMode } from './kitCellsBuildor.js'
 export type { FindOptionsPlus } from './kitStoreList.js'
 export type KitBaseItem = KitBaseEnumOptions & {
   id: string

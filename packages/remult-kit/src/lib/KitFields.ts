@@ -58,7 +58,7 @@ export class KitFields {
     }
 
     // let's return the field
-    return Fields.string({ ...o, validate })
+    return Fields.string<entityType, valueType>({ ...o, validate })
   }
 
   static currency<entityType = any, valueType = any>(
