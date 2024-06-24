@@ -79,13 +79,17 @@
     }
     return { data: LibIcon_Sort }
   }
+
+  const cellsToTake = (cells: KitCell<T>[]) => {
+    return cells.filter((c) => c.modeView !== 'hide')
+  }
 </script>
 
 <div class="overflow-x-auto">
   <table class="table {classes.table}">
     <thead>
       <tr>
-        {#each cells as b, i}
+        {#each cellsToTake(cells) as b, i}
           {@const al = align(b.field, b.kind === 'slot')}
           <th
             class="{al} 
@@ -140,7 +144,7 @@
       {:else}
         {#each $store.items as row}
           <tr on:click={() => dispatch('rowclick', row)} class="hover:bg-base-content/20">
-            {#each cells as b}
+            {#each cellsToTake(cells) as b}
               {@const metaType = getFieldMetaType(b.field)}
               <td class={align(b.field, b.kind === 'slot')}>
                 {#if metaType.kind === 'slot' || b.kind === 'slot'}
