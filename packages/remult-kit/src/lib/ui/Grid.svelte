@@ -139,7 +139,7 @@
     </thead>
     <tbody>
       <!-- Show loading only if there is no items and loading is true, like this on an update, there will be no jump -->
-      {#if $store.items.length === 0 && $store.loading}
+      {#if $store.items.length === 0 && $store.loading && store.getRepo().metadata.apiReadAllowed}
         <GridLoading columns={getAligns(cells, withEdit || withDelete)} {loadingRows} />
       {:else}
         {#each $store.items as row}
@@ -240,7 +240,16 @@
             {/if}
           </tr>
         {:else}
-          {#if dicoNoResult}
+          {#if !store.getRepo().metadata.apiReadAllowed}
+            <tr>
+              <td
+                colspan={getAligns(cells, withEdit || withDelete).length}
+                class="text-center py-12"
+              >
+                Vous n'avez pas la permission pour ces données!
+              </td>
+            </tr>
+          {:else if dicoNoResult}
             <tr>
               <td
                 colspan={getAligns(cells, withEdit || withDelete).length}
