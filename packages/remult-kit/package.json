@@ -39,7 +39,7 @@
   "devDependencies": {
     "@kitql/helpers": "0.8.9",
     "@kitql/internals": "0.9.5",
-    "@sveltejs/adapter-node": "^4.0.1",
+    "@sveltejs/adapter-node": "^5.0.0",
     "@sveltejs/kit": "2.5.10",
     "@sveltejs/package": "2.3.2",
     "@sveltejs/vite-plugin-svelte": "^3.1.0",
