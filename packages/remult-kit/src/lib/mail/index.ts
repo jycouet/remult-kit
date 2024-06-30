@@ -20,23 +20,31 @@ export const mailInit: (nodemailer: typeof typeNodemailer, o?: MailOptions) => v
   if (o?.transport) {
     transporter = nodemailer.createTransport(o?.transport)
   } else {
-    nodemailer.createTestAccount(options?.apiUrl ?? '', (err, account) => {
-      options = { ...options, from: account.user }
+    nodemailerHolder = nodemailer
 
-      transporter = nodemailer.createTransport({
-        host: account.smtp.host,
-        port: account.smtp.port,
-        secure: account.smtp.secure,
-        auth: {
-          user: account.user,
-          pass: account.pass,
-        },
+    try {
+      nodemailer.createTestAccount(options?.apiUrl ?? '', (err, account) => {
+        options = { ...options, from: account.user }
+
+        transporter = nodemailer.createTransport({
+          host: account.smtp.host,
+          port: account.smtp.port,
+          secure: account.smtp.secure,
+          auth: {
+            user: account.user,
+            pass: account.pass,
+          },
+        })
       })
-    })
+    } catch (error) {
+      log.error('Error', error)
+    }
   }
 }
 
 const log = new Log('remult-kit | mail')
+
+let nodemailerHolder: typeof typeNodemailer
 
 export const sendMail: (
   topic: string,
@@ -49,8 +57,10 @@ export const sendMail: (
     })
 
     if (!options?.transport) {
-      // @ts-ignore
-      log.info(`${magenta(`[${topic}]`)} - Preview URL: ${nodemailer.getTestMessageUrl(info)}`)
+      log.info(
+        // @ts-ignore
+        `${magenta(`[${topic}]`)} - Preview URL: ${nodemailerHolder.getTestMessageUrl(info)}`,
+      )
     } else {
       log.success(`${magenta(`[${topic}]`)} - Sent to ${mailOptions.to}`)
     }
