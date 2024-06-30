@@ -26,10 +26,19 @@ export function addValidator(
   return atStart ? [...newValidators, ...validatorsArray] : [...validatorsArray, ...newValidators]
 }
 
+// static string<entityType = any, valueType = string>(
+//   ...param: Parameters<typeof Fields.string<entityType, valueType>>
+// ) {
 export class KitFields {
   static string<entityType = unknown, valueType = string>(
     o?: StringFieldOptions<entityType, valueType> & FieldOptions<entityType, valueType>,
   ) {
+    // const f = Fields.string(...param)
+
+    // f.validate = addValidator(f.validate, Validators.required)
+
+    // return f
+
     // empty if there is nothing coming here.
     if (o === undefined) {
       o = {}

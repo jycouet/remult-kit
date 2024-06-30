@@ -79,6 +79,9 @@ export class KitAuthAccount {
 
   @Fields.date({ includeInApi: false, allowNull: true })
   expiresAt?: Date
+
+  @Fields.date({ includeInApi: false, allowNull: true })
+  lastVerifiedAt?: Date
 }
 
 @Entity('kit_auth_session', {

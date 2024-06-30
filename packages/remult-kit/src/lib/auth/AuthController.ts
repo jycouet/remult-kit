@@ -101,6 +101,23 @@ export class AuthController {
       const user = await remult.repo(oSafe.User).insert({
         name: email,
       })
+
+      const url = `${remult.context.url.origin}`
+
+      if (AUTH_OPTIONS?.invitationSend) {
+        await AUTH_OPTIONS?.invitationSend({ email, url })
+        logAuth.success(`Done with custom ${green('invitationSend')} (${yellow(url)})`)
+        return 'Mail sent !'
+      } else {
+        await sendMail('invite', {
+          to: email,
+          subject: 'Invitation',
+          text: `You were invited here: ${url}`,
+          html: `You were invited <a href="${url}">here</a>`,
+        })
+        logAuth.success(`Done with ${green('sendMail')} (${url})`)
+        return 'Demo Mail sent !'
+      }
     }
 
     return 'ok'
@@ -114,9 +131,12 @@ export class AuthController {
   static async signUpPassword(email: string, password: string) {
     const oSafe = getSafeOptions()
 
-    const selfSignUp = AUTH_OPTIONS.providers?.password?.selfSignUp ?? true
-    if (!selfSignUp) {
-      throw Error("You can't signup by yourself ! Contact the administrator.")
+    if (!oSafe.signUp) {
+      throw Error("You can't signup by yourself! Contact the administrator.")
+    }
+
+    if (!oSafe.password_enabled) {
+      throw Error('Password is not enabled!')
     }
 
     const existingUser = await remult.repo(oSafe.User).findOne({ where: { name: email } })
@@ -129,14 +149,40 @@ export class AuthController {
       name: email,
     })
 
+    const token = generateId(40)
+
     await remult.repo(oSafe.Account).insert({
       provider: AuthProvider.PASSWORD.id,
       providerUserId: email,
       userId: user.id,
       hashPassword: await passwordHash(password),
+      token: oSafe.verifiedMethod === 'auto' ? undefined : token,
+      expiresAt:
+        oSafe.verifiedMethod === 'auto'
+          ? undefined
+          : createDate(
+              new TimeSpan(AUTH_OPTIONS.providers?.password?.verifyMailExpiresIn ?? 5 * 60, 's'),
+            ),
+      lastVerifiedAt: oSafe.verifiedMethod === 'auto' ? new Date() : undefined,
     })
 
-    await createSession(user.id)
+    if (oSafe.verifiedMethod === 'auto') {
+      await createSession(user.id)
+    } else {
+      const url = `${remult.context.url.origin}${oSafe.remultKitData.props.ui.providers.password.paths.verify_email}?token=${token}`
+      if (AUTH_OPTIONS.providers?.password?.verifyMailSend) {
+        await AUTH_OPTIONS.providers?.password.verifyMailSend({ email, url })
+        logAuth.success(`Done with custom ${green('verifyMailSend')} (${yellow(url)})`)
+      } else {
+        await sendMail('signUpPassword', {
+          to: email,
+          subject: 'Wecome!',
+          text: `You can validate your account here: ${url}`,
+          html: `You can validate your account <a href="${url}">here</a>`,
+        })
+        logAuth.success(`Done with ${green('sendMail')} (${url})`)
+      }
+    }
 
     return 'ok'
   }
@@ -148,6 +194,11 @@ export class AuthController {
   @BackendMethod({ allowed: true })
   static async signInPassword(email: string, password: string) {
     const oSafe = getSafeOptions()
+
+    if (!oSafe.password_enabled) {
+      throw Error('Password is not enabled!')
+    }
+
     const existingUser = await remult
       .repo(oSafe.User)
       .findOne({ where: { name: email }, include: { accounts: true } })
@@ -176,6 +227,11 @@ export class AuthController {
   @BackendMethod({ allowed: true })
   static async forgotPassword(email: string) {
     const oSafe = getSafeOptions()
+
+    if (!oSafe.password_enabled) {
+      throw Error('Password is not enabled!')
+    }
+
     const u = await remult.repo(getSafeOptions().User).findFirst({ name: email })
 
     if (u) {
@@ -196,10 +252,11 @@ export class AuthController {
       )
 
       await remult.repo(oSafe.Account).save(authAccount)
-      const url = `${remult.context.url.origin}/auth/resetPassword?token=${token}`
-      if (AUTH_OPTIONS.providers?.password?.resetPassword) {
-        await AUTH_OPTIONS.providers?.password.resetPassword(url)
-        logAuth.success(`Done with custom ${green('resetPassword')} (${yellow(url)})`)
+
+      const url = `${remult.context.url.origin}${oSafe.remultKitData.props.ui.providers.password.paths.reset_password}?token=${token}`
+      if (AUTH_OPTIONS.providers?.password?.resetPasswordSend) {
+        await AUTH_OPTIONS.providers?.password.resetPasswordSend({ email, url })
+        logAuth.success(`Done with custom ${green('resetPasswordSend')} (${yellow(url)})`)
         return 'Mail sent !'
       } else {
         await sendMail('forgotPassword', {
@@ -209,11 +266,10 @@ export class AuthController {
           html: `You can reset your password <a href="${url}">here</a>`,
         })
         logAuth.success(`Done with ${green('sendMail')} (${url})`)
+        return 'Demo Mail sent !'
       }
-    } else {
-      throw new Error("Une erreur est survenue, contacte l'administrateur!")
     }
-    return 'Hum, something went wrong !'
+    throw new Error("Une erreur est survenue, contacte l'administrateur!")
   }
 
   /**
@@ -222,6 +278,11 @@ export class AuthController {
   @BackendMethod({ allowed: true })
   static async resetPassword(token: string, password: string) {
     const oSafe = getSafeOptions()
+
+    if (!oSafe.password_enabled) {
+      throw Error('Password is not enabled!')
+    }
+
     const account = await remult
       .repo(oSafe.Account)
       .findFirst({ token, provider: AuthProvider.PASSWORD.id })
@@ -233,12 +294,14 @@ export class AuthController {
       throw new Error('token expired')
     }
     checkPassword(password)
+
     await lucia.invalidateUserSessions(account.userId)
 
     // update elements
     account.hashPassword = await passwordHash(password)
     account.token = undefined
     account.expiresAt = undefined
+    account.lastVerifiedAt = new Date()
 
     await remult.repo(oSafe.Account).save(account)
 
@@ -250,6 +313,12 @@ export class AuthController {
   /** OTP */
   @BackendMethod({ allowed: true })
   static async signInOTP(email: string) {
+    const oSafe = getSafeOptions()
+
+    if (!oSafe.otp_enabled) {
+      throw new Error(`OPT is not enabled!`)
+    }
+
     if (AUTH_OPTIONS.providers?.otp?.send) {
       const { createTOTPKeyURI } = await import('oslo/otp')
       const { encodeHex } = await import('oslo/encoding')
@@ -294,14 +363,14 @@ export class AuthController {
     } else {
       logAuth.error(`You need to provide a otp.send hook in the auth options!`)
     }
-    throw new Error(`OPT is not enabled!`)
+    return 'Hum, something went wrong !'
   }
 
   /**
    * Verify the OTP code
    */
   @BackendMethod({ allowed: true })
-  static async verifyOtp(otp: string | number, email: string) {
+  static async verifyOtp(email: string, otp: string | number) {
     const oSafe = getSafeOptions()
 
     const accounts = await remult.repo(oSafe.Account).find({
