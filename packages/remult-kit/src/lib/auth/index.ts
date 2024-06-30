@@ -9,16 +9,19 @@ import { Lucia, TimeSpan, type SessionCookieOptions } from 'lucia'
 import { remult } from 'remult'
 import type { ClassType, UserInfo } from 'remult'
 import { Log, red } from '@kitql/helpers'
-
-import type { ResolvedType } from '$lib/utils/types'
+import { read } from '@kitql/internals'
 
 import { KitRole } from '../'
 import type { Module } from '../api'
+import type { ResolvedType } from '../utils/types'
 import { RemultLuciaAdapter } from './Adapter'
 import { AuthController } from './AuthController'
 import { KitAuthAccount, KitAuthRole, KitAuthUser, KitAuthUserSession } from './Entities'
 import { createSession } from './helper'
 import { RoleController } from './RoleController'
+import type { RemultKitData } from './types'
+
+export type { RemultKitData }
 
 export { KitAuthUser, KitAuthAccount, AuthProvider, KitAuthUserSession } from './Entities'
 export { AuthController } from './AuthController'
@@ -82,6 +85,14 @@ type AuthOptions<
     Session?: ClassType<TSessionEntity>
     Account?: ClassType<TAccountEntity>
   }
+
+  ui?:
+    | {
+        paths?: {
+          base?: string
+        }
+      }
+    | false
 
   /** in secondes @default 15 days */
   sessionExpiresIn?: number
@@ -175,6 +186,82 @@ export const auth: (o: AuthOptions) => Module = (o) => {
       }
     },
     earlyReturn: async ({ event, resolve }) => {
+      if (AUTH_OPTIONS.ui === false) {
+        return { early: false }
+      }
+      const base = AUTH_OPTIONS.ui?.paths?.base ?? '/kit/auth'
+
+      const oAuths =
+        AUTH_OPTIONS.providers?.oAuths?.map((o) => {
+          return o.name
+        }) ?? []
+
+      const remultKitData: RemultKitData = {
+        module: 'auth',
+        props: {
+          ui: {
+            paths: {
+              base,
+            },
+            providers: {
+              password: {
+                dico: {
+                  email: 'Email',
+                  email_placeholder: 'Your email address',
+                  password: 'Password',
+                  btn_sign_up: 'Sign up',
+                  btn_sign_in: 'Sign in',
+                  forgot_password: 'Forgot your password?',
+                  send_password_reset_instructions: 'Send password reset instructions',
+                  back_to_sign_in: 'Back to sign in',
+                },
+                paths: {
+                  sign_up: `${base}/sign-up`,
+                  sign_in: `${base}/sign-in`,
+                  forgot_password: `${base}/forgot-password`,
+                  reset_password: `${base}/reset-password`,
+                },
+              },
+              oAuths,
+            },
+          },
+        },
+      }
+
+      if (event.url.pathname.startsWith(remultKitData.props.ui.paths.base)) {
+        return {
+          early: true,
+          resolve: new Response(
+            read('src/lib/auth/static/index.html') +
+              `<script>const remultKitData = ${JSON.stringify(remultKitData)}</script>`,
+            {
+              headers: { 'content-type': 'text/html' },
+            },
+          ),
+        }
+      }
+
+      if (event.url.pathname.startsWith('/api/static')) {
+        const content = read(
+          `src/lib/auth/static/${event.url.pathname.replaceAll('/api/static/', '')}`,
+        )
+        if (content) {
+          const seg = event.url.pathname.split('.')
+          const map: Record<string, string> = {
+            js: 'text/javascript',
+            css: 'text/css',
+            svg: 'image/svg+xml',
+          }
+
+          return {
+            early: true,
+            resolve: new Response(content, {
+              headers: { 'content-type': map[seg[seg.length - 1]] ?? 'text/plain' },
+            }),
+          }
+        }
+      }
+
       if (event.url.pathname === '/api/auth_callback') {
         const code = event.url.searchParams.get('code')
         const state = event.url.searchParams.get('state')

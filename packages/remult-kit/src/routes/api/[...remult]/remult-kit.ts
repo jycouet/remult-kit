@@ -44,6 +44,14 @@ export const remultApi = remultKit({
         User: _AppUser,
       },
 
+      // ui: {
+      //   // paths: {
+      //   //   // base: '',
+      //   //   // login: '/login',
+      //   // },
+      //   // strings: {
+      //   // }
+      // },
       providers: {
         demo: [{ name: 'Noam' }, { name: 'Ermin' }, { name: 'JYC', roles: [Role.ADMIN] }],
 
@@ -51,10 +59,10 @@ export const remultApi = remultKit({
           // selfSignUp: false,
           // TODO: enable signup (bool)
           // TODO: enable email verify (bool)
-          resetPassword: async (url) => {
-            console.info(`Mail to send with this url:`, url)
-            console.info('You can use the function sendMail() from "remult-kit/mail"')
-          },
+          // resetPassword: async (url) => {
+          //   console.info(`Mail to send with this url:`, url)
+          //   console.info('You can use the function sendMail() from "remult-kit/mail"')
+          // },
         },
 
         otp: {
