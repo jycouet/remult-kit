@@ -1,5 +1,11 @@
 # remult-kit
 
+## 0.26.16
+
+### Patch Changes
+
+- [#39](https://github.com/jycouet/remult-kit/pull/39) [`a6789b7`](https://github.com/jycouet/remult-kit/commit/a6789b7839abb10fcd6fa12295a45479e8898b32) Thanks [@jycouet](https://github.com/jycouet)! - init JYC-09 (beta mode)
+
 ## 0.26.15
 
 ### Patch Changes
